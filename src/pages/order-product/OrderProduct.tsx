@@ -53,15 +53,9 @@ const WareHouseInfo = ({ warehouse, amount }: WareHouseInfoProps) => {
   );
 };
 
-const WAREHOUSE_LIST: WareHouse[] = [
-  { name: "Московский" },
-  { name: "Химки" },
-  { name: "Зеленоград" },
-  { name: "Ленусевский" },
-];
-
 export const OrderProduct = () => {
   const [product, setProduct] = useState<Product>();
+  const [warehouseList, setWarehouseList] = useState<WareHouse[]>([]);
   const { id } = useParams();
   const productAmount = product?.number.reduce(
     (acc, amount) => acc + amount,
@@ -84,6 +78,21 @@ export const OrderProduct = () => {
       return data;
     }
     getProduct();
+  }, []);
+
+  useEffect(() => {
+    async function getWarehouse(): Promise<WareHouse[]> {
+      const response = await fetch(`http://localhost:5000/wh/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      setWarehouseList(data);
+      return data;
+    }
+    getWarehouse();
   }, []);
 
   return (
@@ -112,7 +121,7 @@ export const OrderProduct = () => {
           <h3>Всего в наличии: {productAmount}</h3>
         </div>
         <div className="whProductNumberContainer">
-          {WAREHOUSE_LIST.map(
+          {warehouseList.map(
             (wh, index) =>
               product?.number[index] !== undefined && (
                 <WareHouseInfo warehouse={wh} amount={product.number[index]} />
