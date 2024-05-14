@@ -29,6 +29,7 @@ import { ClinicServicesEdit } from "./pages/clinic-dashboard/components/clinic-s
 import { OrderProduct } from "./pages/order-product/OrderProduct";
 import { DoctorPatient } from "./pages/doctor-dashboard/components/doctor-patients/DoctorPatient";
 import { AddWH } from "./pages/add-wh/AddWH";
+import { AddCategory } from "./pages/add-category/AddCategory";
 // import { LoginPage } from './pages/LoginPage';
 // import { LoginPageModal } from './features/login-page/login-page';
 // import { Register } from './features/register-page/register-page';
@@ -45,7 +46,8 @@ function Root() {
       <Route path="product" element={<ProductPage />} />
 
       <Route path="/orderProduct/:type/:id" element={<OrderProduct />} />
-      <Route path="/addWH" element={<AddWH/>} />
+      <Route path="/addWH" element={<AddWH />} />
+      <Route path="/addCategory" element={<AddCategory />} />
 
       <Route path="/landing/:clinicId" element={<LandingClinic />} />
       <Route path="register" element={<div>Окно регистрации</div>} />

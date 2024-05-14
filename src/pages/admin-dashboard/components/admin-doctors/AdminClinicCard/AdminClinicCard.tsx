@@ -1,6 +1,6 @@
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { authStorage } from '../../../../../authStorage';
-import useModal from '../../../../../components/Modal/useModal';
+import useModal from '../../../../../hooks/useModal';
 import { DeleteModal } from '../../../../../features/delete-modal/delete-modal';
 type Props = {
     clinic_id: string

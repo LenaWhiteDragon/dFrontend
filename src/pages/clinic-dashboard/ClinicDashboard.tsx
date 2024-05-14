@@ -2,7 +2,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { resolveTypeReferenceDirective } from "typescript";
 import './ClinicDashboard.scss';
 import { useEffect } from "react";
-import useModal from "../../components/Modal/useModal";
+import useModal from "../../hooks/useModal";
 import { CloseModal } from "../../features/close-modal/close-modal";
 
 export function ClinicPage() {

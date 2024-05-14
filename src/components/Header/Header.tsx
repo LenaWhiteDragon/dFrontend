@@ -1,7 +1,7 @@
 import './Header.scss';
 
 import { Outlet, useNavigate } from "react-router-dom";
-import useModal from "../Modal/useModal";
+import useModal from "../../hooks/useModal";
 import { LoginModal } from "../../features/login-modal/login-modal";
 import { RegisterModal } from "../../features/register-modal/register-modal";
 import { CloseModal } from "../../features/close-modal/close-modal";

@@ -1,7 +1,7 @@
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { authStorage } from '../../../../../authStorage';
 import { useEffect, useState } from 'react';
-import useModal from '../../../../../components/Modal/useModal';
+import useModal from '../../../../../hooks/useModal';
 import { DeleteModal } from '../../../../../features/delete-modal/delete-modal';
 import './ClinicServiceEditCard.scss';
 type Props = {

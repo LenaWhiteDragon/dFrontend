@@ -2,7 +2,7 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 import { authStorage } from '../../../../../authStorage';
 import { useEffect, useState } from 'react';
 import '../DoctorSchedule.scss';
-import useModal from '../../../../../components/Modal/useModal';
+import useModal from '../../../../../hooks/useModal';
 import { DeleteModal } from '../../../../../features/delete-modal/delete-modal';
 type Props = {
     schedule_id: number, 

@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './LandingClinic.scss';
 import { Link, Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { authStorage } from '../../authStorage';
-import useModal from '../../components/Modal/useModal';
+import useModal from '../../hooks/useModal';
 import { CloseModal } from '../../features/close-modal/close-modal';
 import { LoginModal } from '../../features/login-modal/login-modal';
 import { RegisterModal } from '../../features/register-modal/register-modal';

@@ -12,8 +12,6 @@ export default function useModal() {
     setPathToRedirect(pathToRedirect);
   }
 
-  console.log('useModal')
-
   return {
     isOpen,
     closeModal, pathToRedirect, openModal, IsConfirmed, setIsConfirmed
