@@ -11,6 +11,7 @@
   align-items: center;
   z-index: 999; /* Ensure it's above other elements */
 }
+
 .brand-logo {
   text-decoration: none;
   color: black;
@@ -19,33 +20,35 @@
   right: 20px;
   cursor: pointer;
 }
+
 .card {
   background: #f7f7f7;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  padding: 20px;
-  width: 39%;
+  padding: 30px 20px;
+  width: 50%;
   position: fixed;
-  left: 29%;
-  top: 24%;
+  left: 23%;
+  top: 20%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.regLink { 
-  color: #4a6d5f;
-  text-decoration: underline;
-  margin: 10px;
-  font-size: small;
-  cursor: pointer;
+.card-content {
+  overflow: scroll;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none; 
+  height: 100%;
+  width: 100%;
+  //display: grid;
+  //grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+ // grid-gap: 20px;
 }
 
-.card-content {
-  height: 200px;
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr; /* Single column for smaller screens */
+.card-content::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
 }
 
 .card-action {
@@ -60,6 +63,9 @@
   text-align: center;
 }
 
+.input-field {
+  margin-bottom: 20px;
+}
 
 .input-field input {
   border: 1px solid #ccc;

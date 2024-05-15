@@ -2,8 +2,7 @@ import './Header.scss';
 
 import { Outlet, useNavigate } from "react-router-dom";
 import useModal from "../../hooks/useModal";
-import { LoginModal } from "../../features/login-modal/login-modal";
-import { RegisterModal } from "../../features/register-modal/register-modal";
+import { Register} from "../../pages/register/Register";
 import { CloseModal } from "../../features/close-modal/close-modal";
 import { useEffect } from "react";
 import { authStorage, signOut } from "../../authStorage";
@@ -41,7 +40,7 @@ export const Header = () => {
           {/* className={`${authStorage.token == "" ? "" : "disabledLink"}`} */}
           <li>
             {authStorage.token == "" ? (
-              <a onClick={() => loginModal.openModal("/")}>Вход</a>
+              <a onClick={() => navigate("/Login")}>Вход</a>
             ) : (
               <a onClick={() => closeConfirmModal.openModal("/")}>Выход</a>
             )}
@@ -49,19 +48,6 @@ export const Header = () => {
         </ul>
       </div>
       <Outlet context={{ openLoginModal: loginModal.openModal }} />
-      <LoginModal
-        isOpen={loginModal.isOpen}
-        closeModal={loginModal.closeModal}
-        pathToRedirect={loginModal.pathToRedirect}
-        openRegister={openRegister}
-      />
-
-      <RegisterModal
-        isOpen={registerModal.isOpen}
-        closeModal={registerModal.closeModal}
-        pathToRedirect={registerModal.pathToRedirect}
-      />
-
       <CloseModal
         isOpen={closeConfirmModal.isOpen}
         closeModal={closeConfirmModal.closeModal}

@@ -2,7 +2,6 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 import { authStorage } from '../../../../../authStorage';
 import { useEffect, useState } from 'react';
 import useModal from '../../../../../hooks/useModal';
-import { DeleteModal } from '../../../../../features/delete-modal/delete-modal';
 import './ClinicServiceEditCard.scss';
 type Props = {
   id_services: string;
@@ -65,7 +64,6 @@ export function ClinicServiceEditCard(props: Props) {
           Удалить
         </button>
       </div>
-      <DeleteModal isOpen={deleteConfirmModal.isOpen} closeModal={deleteConfirmModal.closeModal} item={props.title} onConfirm={deleteService}/>
 
     </div>
 

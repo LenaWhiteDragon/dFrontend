@@ -10,11 +10,38 @@ interface WareHouse {
 }
 interface WareHouseInfoProps {
   warehouse: WareHouse;
-  amount: number;
+  product: Product;
+  orderAmount: number[];
+  setOrderAmount: React.Dispatch<React.SetStateAction<number[]>>;
+  index: number;
 }
 
-const WareHouseInfo = ({ warehouse, amount }: WareHouseInfoProps) => {
-  const [orderAmount, setOrderAmount] = useState<number>(0);
+const WareHouseInfo = ({
+  warehouse,
+  product,
+  orderAmount,
+  setOrderAmount,
+  index,
+}: WareHouseInfoProps) => {
+  const amount = product.number[index];
+
+  function decrementArrayValue(array: number[], index: number) {
+    const newArray = [...array];
+    newArray[index] = newArray[index] - 1;
+    setOrderAmount(newArray);
+  }
+
+  function setArrayValue(array: number[], index: number, value: number) {
+    const newArray = [...array];
+    newArray[index] = value;
+    setOrderAmount(newArray);
+  }
+
+  function incrementArrayValue(array: number[], index: number) {
+    const newArray = [...array];
+    newArray[index] = newArray[index] + 1;
+    setOrderAmount(newArray);
+  }
 
   return (
     <div className="whProductNumber">
@@ -24,8 +51,8 @@ const WareHouseInfo = ({ warehouse, amount }: WareHouseInfoProps) => {
       <div className="buttonsContainer">
         <button
           className="productOrderButton"
-          disabled={orderAmount === 0}
-          onClick={() => setOrderAmount(orderAmount - 1)}
+          disabled={orderAmount[index] === 0}
+          onClick={() => decrementArrayValue(orderAmount, index)}
         >
           -
         </button>
@@ -34,17 +61,17 @@ const WareHouseInfo = ({ warehouse, amount }: WareHouseInfoProps) => {
           className="productOrderAmountInput"
           id="productOrderAmount"
           name="productOrderAmount"
-          value={orderAmount}
+          value={orderAmount[index]}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setOrderAmount(Number(e.target.value))
+            setArrayValue(orderAmount, index, Number(e.target.value))
           }
           min={0}
           max={amount}
         />
         <button
           className="productOrderButton"
-          disabled={orderAmount >= amount}
-          onClick={() => setOrderAmount(orderAmount + 1)}
+          disabled={orderAmount[index] >= product.number[index]}
+          onClick={() => incrementArrayValue(orderAmount, index)}
         >
           +
         </button>
@@ -55,12 +82,32 @@ const WareHouseInfo = ({ warehouse, amount }: WareHouseInfoProps) => {
 
 export const OrderProduct = () => {
   const [product, setProduct] = useState<Product>();
+  const [orderAmount, setOrderAmount] = useState<number[]>([]);
   const [warehouseList, setWarehouseList] = useState<WareHouse[]>([]);
   const { id } = useParams();
   const productAmount = product?.number.reduce(
     (acc, amount) => acc + amount,
     0
   );
+
+  useEffect(() => {
+    setOrderAmount(product?.number.map((el) => (el !== 0 ? 1 : 0)) || []);
+  }, [product]);
+
+  async function CreateOrder() {
+    const response = await fetch(`http://localhost:5000/product/orderProduct`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id_product: product?.id,
+        number: orderAmount,
+        id_user: 5,
+      }),
+    });
+    alert('Заказ выполнен')
+  }
 
   useEffect(() => {
     async function getProduct(): Promise<Product> {
@@ -124,11 +171,17 @@ export const OrderProduct = () => {
           {warehouseList.map(
             (wh, index) =>
               product?.number[index] !== undefined && (
-                <WareHouseInfo warehouse={wh} amount={product.number[index]} />
+                <WareHouseInfo
+                  warehouse={wh}
+                  product={product}
+                  orderAmount={orderAmount}
+                  setOrderAmount={setOrderAmount}
+                  index={index}
+                />
               )
           )}
         </div>
-        <button>Заказать</button>
+        <button className="buttonOrder" onClick={CreateOrder}>Заказать</button>
       </div>
     </div>
   );

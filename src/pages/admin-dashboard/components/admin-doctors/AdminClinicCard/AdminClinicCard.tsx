@@ -1,7 +1,6 @@
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { authStorage } from '../../../../../authStorage';
 import useModal from '../../../../../hooks/useModal';
-import { DeleteModal } from '../../../../../features/delete-modal/delete-modal';
 type Props = {
     clinic_id: string
     clinic_title: string
@@ -49,7 +48,6 @@ export function AdminClinicCard(props: Props) {
             Удалить
           </button>
           <button onClick={() => navigate("/landing/" + props.clinic_id)}>Открыть страницу</button>
-          <DeleteModal isOpen={deleteConfirmModal.isOpen} closeModal={deleteConfirmModal.closeModal} item={props.clinic_title} onConfirm={deleteClinic}/>
        </div>
        </div>
     );

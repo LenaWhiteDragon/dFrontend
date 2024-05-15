@@ -2,7 +2,6 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 import { authStorage } from '../../../../../authStorage';
 import { useEffect, useState } from 'react';
 import useModal from '../../../../../hooks/useModal';
-import { DeleteModal } from '../../../../../features/delete-modal/delete-modal';
 type Props = {
     doctorId: string
     doctorName: string
@@ -64,7 +63,6 @@ export function ClinicDoctorCard(props: Props) {
           <button onClick={() => { navigate("/myclinic/schedule/" + props.doctorId) }}>Создать расписание</button>
           <button onClick={() => { navigate("/myclinic/edit/" + props.doctorId) }}>Редактировать</button>
        </div>
- <DeleteModal isOpen={deleteConfirmModal.isOpen} closeModal={deleteConfirmModal.closeModal} item={props.doctorName} onConfirm={deleteDoctor}/>
        </div>
        
     );

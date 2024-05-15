@@ -6,6 +6,7 @@
   width: 80%;
   margin: 0 auto;
   align-items: center;
+  padding-bottom: 30px;
 }
 
 .productImage {
@@ -24,6 +25,7 @@
   li {
     margin: 10px auto;
   }
+  font-size: 20px;
 }
 
 .productInfoContainer {
@@ -81,4 +83,8 @@
     margin: 0;
   }
   border-radius: 5px;
+}
+
+.buttonOrder{
+  width: 50%;
 }
