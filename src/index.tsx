@@ -30,6 +30,7 @@ import { AddCategory } from "./pages/add-category/AddCategory";
 import { Login } from "./pages/login/Login";
 import { Register } from "./pages/register/Register";
 import { AuthStorage, authStorage, signIn } from "./authStorage";
+import { OrdersHistory } from "./pages/orders-history/OrdersHistory";
 
 // import { LoginPage } from './pages/LoginPage';
 // import { LoginPageModal } from './features/login-page/login-page';
@@ -45,56 +46,53 @@ function Root() {
     <Routes>
       {/* <Route path="/login" element={<Login />} /> */}
       <Route path="/register" element={<Register />} />
-      {authStorage.token && (
-        <>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="product" element={<ProductPage />} />
-          <Route path="/orderProduct/:type/:id" element={<OrderProduct />} />
-          <Route path="/addWH" element={<AddWH />} />
-          <Route path="/addCategory" element={<AddCategory />} />
+      <Route path="/" element={<LandingPage />} />
+      <Route path="product" element={<ProductPage />} />
+      <Route path="/orderProduct/:type/:id" element={<OrderProduct />} />
+      <Route path="/addWH" element={<AddWH />} />
+      <Route path="/addCategory" element={<AddCategory />} />
+      <Route path="/ordersHistory" element={<OrdersHistory />} />
 
-          <Route path="/about/*" element={<div>About</div>} />
+      <Route path="/about/*" element={<div>About</div>} />
 
-          <Route path="/my" element={<div>Мой личный кабинет пациента</div>} />
+      <Route path="/my" element={<div>Мой личный кабинет пациента</div>} />
 
-          {/* ЛК АДМИНА*/}
-          <Route path="/myadmin" element={<AdminPage />}>
-            <Route index element={<AdminCreate />} />
-            <Route path="clinics" element={<AdminClinics />} />
-            <Route path="cliniccreate" element={<AdminCreateClinic />} />
-          </Route>
+      {/* ЛК АДМИНА*/}
+      <Route path="/myadmin" element={<AdminPage />}>
+        <Route index element={<AdminCreate />} />
+        <Route path="clinics" element={<AdminClinics />} />
+        <Route path="cliniccreate" element={<AdminCreateClinic />} />
+      </Route>
 
-          {/* ЛК КЛИНИКИ*/}
-          <Route path="/myclinic" element={<ClinicPage />}>
-            <Route index element={<ClinicLandingEdit />} />
-            <Route path="doctor" element={<ClinicDoctors />} />
-            <Route path="create" element={<ClinicCreate />} />
-            <Route path="schedule/:doctorId" element={<ClinicSchedule />} />
-            <Route path="edit/:doctorId" element={<ClinicEdit />} />
-            <Route path="services" element={<ClinicServices />} />
-            <Route path="editServices" element={<ClinicServicesEdit />} />
-          </Route>
+      {/* ЛК КЛИНИКИ*/}
+      <Route path="/myclinic" element={<ClinicPage />}>
+        <Route index element={<ClinicLandingEdit />} />
+        <Route path="doctor" element={<ClinicDoctors />} />
+        <Route path="create" element={<ClinicCreate />} />
+        <Route path="schedule/:doctorId" element={<ClinicSchedule />} />
+        <Route path="edit/:doctorId" element={<ClinicEdit />} />
+        <Route path="services" element={<ClinicServices />} />
+        <Route path="editServices" element={<ClinicServicesEdit />} />
+      </Route>
 
-          {/* ЛК ВРАЧА*/}
-          <Route path="/mydoctor" element={<DoctorPage />}>
-            <Route index element={<DoctorPage />} />
-            <Route path="schedule" element={<DoctorsSchedule />} />
-            <Route path="medinfo/:patientId" element={<DoctorPatient />} />
-            {/* <Route path="patients" element={<DoctorsSchedule/>} /> */}
-            {/* <Route path="schedule/:doctorId" element={<ClinicSchedule/>} />
+      {/* ЛК ВРАЧА*/}
+      <Route path="/mydoctor" element={<DoctorPage />}>
+        <Route index element={<DoctorPage />} />
+        <Route path="schedule" element={<DoctorsSchedule />} />
+        <Route path="medinfo/:patientId" element={<DoctorPatient />} />
+        {/* <Route path="patients" element={<DoctorsSchedule/>} /> */}
+        {/* <Route path="schedule/:doctorId" element={<ClinicSchedule/>} />
     <Route path="edit/:doctorId" element={<ClinicEdit/>} /> */}
-          </Route>
+      </Route>
 
-          {/* ЛК ПАЦИЕНТА*/}
-          <Route path="/mydoctor" element={<ClinicPage />}>
-            <Route index element={<ClinicPage />} />
-            <Route path="schedule" element={<ClinicDoctors />} />
-            <Route path="patients" element={<ClinicCreate />} />
-            {/* <Route path="schedule/:doctorId" element={<ClinicSchedule/>} />
+      {/* ЛК ПАЦИЕНТА*/}
+      <Route path="/mydoctor" element={<ClinicPage />}>
+        <Route index element={<ClinicPage />} />
+        <Route path="schedule" element={<ClinicDoctors />} />
+        <Route path="patients" element={<ClinicCreate />} />
+        {/* <Route path="schedule/:doctorId" element={<ClinicSchedule/>} />
     <Route path="edit/:doctorId" element={<ClinicEdit/>} /> */}
-          </Route>
-        </>
-      )}
+      </Route>
       <Route path="*" element={<Login />} />
     </Routes>
   );
