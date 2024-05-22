@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { Order } from "../../types/Order";
 import { Header } from "../../components/Header/Header";
 import styles from "./OrdersHistory.module.scss";
-import cancelIcon from "../../assets/icons/close_icon.svg.svg";
-import checkIcon from "../../assets/icons/check_icon.svg.svg";
+import cancelIcon from "../../assets/icons/close_icon.svg";
+import { CheckIcon } from "../../assets/icons/CheckIcon";
+import { CloseIcon } from "../../assets/icons/CloseIcon";
 
 export const OrdersHistory = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const testAmount = [1, 4, 1, 4];
+
   useEffect(() => {
     async function getOrders(): Promise<Order[]> {
       const response = await fetch(`http://localhost:5000/order`, {
@@ -16,13 +18,42 @@ export const OrdersHistory = () => {
           "Content-Type": "application/json",
         },
       });
+
       const data = await response.json();
+      data.sort((a: Order, b: Order) => a.id_order - b.id_order);
       setOrders(data);
       console.log(data);
       return data;
     }
+
     getOrders();
   }, []);
+
+  async function putOrderStatus(
+    orderId: number,
+    isCompleted: boolean
+  ): Promise<Order[]> {
+    const response = await fetch(`http://localhost:5000/order/status`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id_order: orderId,
+        is_completed: isCompleted,
+      }),
+    });
+    const data = await response.json();
+    setOrders((prevOrders) =>
+      prevOrders.map((order) =>
+        order.id_order === orderId
+          ? { ...order, is_completed: isCompleted }
+          : order
+      )
+    );
+    return data;
+  }
+
   return (
     <div>
       <Header />
@@ -43,8 +74,14 @@ export const OrdersHistory = () => {
         <tbody>
           {orders.map((order) => (
             <tr>
-              <td>
-                <img src={order.is_completed ? checkIcon : cancelIcon} />
+              <td
+                onClick={() =>
+                  putOrderStatus(order.id_order, !order.is_completed)
+                }
+              >
+                <div className={styles.status}>
+                  {order.is_completed ? <CheckIcon /> : <CloseIcon />}
+                </div>
               </td>
               <td>{order.id_order}</td>
               <td>{order.user_id}</td>
