@@ -1,26 +1,26 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import './NavBar.scss';
+import "./NavBar.scss";
 
 export const NavBar = () => {
-    const navigate = useNavigate();
-    const location = useLocation();
-    return (
+  const navigate = useNavigate();
+  const location = useLocation();
+  return (
     <div className="search-tabs">
       <button
-        className={`tab ${location.pathname == "/clinics" ? "active" : ""}`}
+        className={`tab ${location.pathname == "/addWH" ? "active" : ""}`}
         onClick={() => {
-          navigate("/clinics");
+          navigate("/addWH");
         }}
       >
-        По поликлиникам
+        Добавить склад
       </button>
       <button
-        className={`tab ${location.pathname == "/doctors" ? "active" : ""}`}
+        className={`tab ${location.pathname == "/addCategory" ? "active" : ""}`}
         onClick={() => {
-          navigate("/doctors");
+          navigate("/addCategory");
         }}
       >
-        По врачам
+        Добавить категорию
       </button>
       <button
         className={`tab ${location.pathname == "/product" ? "active" : ""}`}
@@ -29,6 +29,16 @@ export const NavBar = () => {
         }}
       >
         По услугам
+      </button>
+      <button
+        className={`tab ${
+          location.pathname == "/ordersHistory" ? "active" : ""
+        }`}
+        onClick={() => {
+          navigate("/ordersHistory");
+        }}
+      >
+        История заказов
       </button>
     </div>
   );

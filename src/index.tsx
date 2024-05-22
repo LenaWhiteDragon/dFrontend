@@ -47,7 +47,7 @@ function Root() {
       {/* <Route path="/login" element={<Login />} /> */}
       <Route path="/register" element={<Register />} />
       <Route path="/" element={<LandingPage />} />
-      <Route path="product" element={<ProductPage />} />
+      <Route path="/product" element={<ProductPage />} />
       <Route path="/orderProduct/:type/:id" element={<OrderProduct />} />
       <Route path="/addWH" element={<AddWH />} />
       <Route path="/addCategory" element={<AddCategory />} />
