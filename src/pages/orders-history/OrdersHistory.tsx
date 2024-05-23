@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { Order } from "../../types/Order";
 import { Header } from "../../components/Header/Header";
 import styles from "./OrdersHistory.module.scss";
-import cancelIcon from "../../assets/icons/close_icon.svg";
 import { CheckIcon } from "../../assets/icons/CheckIcon";
 import { CloseIcon } from "../../assets/icons/CloseIcon";
+import { formatDate } from "../../utils/parseDate";
 
 export const OrdersHistory = () => {
   const [orders, setOrders] = useState<Order[]>([]);
-  const testAmount = [1, 4, 1, 4];
+  const [maxColumns, setMaxColumns] = useState(0);
 
   useEffect(() => {
     async function getOrders(): Promise<Order[]> {
@@ -22,12 +22,18 @@ export const OrdersHistory = () => {
       const data = await response.json();
       data.sort((a: Order, b: Order) => a.id_order - b.id_order);
       setOrders(data);
-      console.log(data);
       return data;
     }
 
     getOrders();
   }, []);
+
+  useEffect(() => {
+    const maxCols = Math.max(
+      ...orders.map((order: Order) => order.order_number.length)
+    );
+    setMaxColumns(maxCols);
+  }, [orders]);
 
   async function putOrderStatus(
     orderId: number,
@@ -66,8 +72,8 @@ export const OrdersHistory = () => {
             <th>Id продукта</th>
             <th>Название товара</th>
             <th>Время заказа</th>
-            {testAmount.map((_, index) => (
-              <th>Количество товаров со склада {index + 1}</th>
+            {Array.from({ length: maxColumns }, (_, index) => (
+              <th key={index}>Количество товаров со склада {index + 1}</th>
             ))}
           </tr>
         </thead>
@@ -87,7 +93,7 @@ export const OrdersHistory = () => {
               <td>{order.user_id}</td>
               <td>{order.id_product}</td>
               <td>{order.name}</td>
-              <td>{new Date(order.date).toDateString()}</td>
+              <td>{formatDate(order.date)}</td>
               {order.order_number.map((number) => (
                 <td>{number}</td>
               ))}
