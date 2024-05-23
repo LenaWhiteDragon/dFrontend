@@ -80,22 +80,25 @@ export const OrdersHistory = () => {
         <tbody>
           {orders.map((order) => (
             <tr>
-              <td
-                onClick={() =>
-                  putOrderStatus(order.id_order, !order.is_completed)
-                }
-              >
-                <div className={styles.status}>
+              <td className={styles.statusContainer}>
+                <div
+                  className={styles.status}
+                  onClick={() =>
+                    putOrderStatus(order.id_order, !order.is_completed)
+                  }
+                >
                   {order.is_completed ? <CheckIcon /> : <CloseIcon />}
                 </div>
               </td>
-              <td>{order.id_order}</td>
-              <td>{order.user_id}</td>
-              <td>{order.id_product}</td>
+              <td className={styles.centeredText}>{order.id_order}</td>
+              <td className={styles.centeredText}>{order.user_id}</td>
+              <td className={styles.centeredText}>{order.id_product}</td>
               <td>{order.name}</td>
               <td>{formatDate(order.date)}</td>
-              {order.order_number.map((number) => (
-                <td>{number}</td>
+              {Array.from({ length: maxColumns }, (_, index) => (
+                <td key={index} className={styles.centeredText}>
+                  {order.order_number[index]}
+                </td>
               ))}
             </tr>
           ))}
