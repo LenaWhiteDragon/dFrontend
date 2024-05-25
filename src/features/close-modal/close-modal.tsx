@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import styles from './close-modal.module.scss'
-import { useNavigate } from 'react-router-dom';
-import Modal from '../../components/Modal/Modal';
-import { authStorage, signOut } from '../../authStorage';
+import React, { useState } from "react";
+import styles from "./close-modal.module.scss";
+import { useNavigate } from "react-router-dom";
+import Modal from "../../components/Modal/Modal";
+import { authStorage, signOut } from "../../auth/authStorage";
 interface Props {
   isOpen: boolean;
   closeModal: () => void;
@@ -13,7 +13,7 @@ interface Props {
 export function CloseModal(props: Props) {
   const navigate = useNavigate();
   async function logOut() {
-    signOut()
+    signOut();
     window.location.href = "/";
     props.closeModal();
   }
@@ -24,19 +24,21 @@ export function CloseModal(props: Props) {
         <div className={styles.card}>
           <span className={styles["card-title"]}>Вы уверены?</span>
           <div className={styles["card-content"]}>
-          <label>Вы точно хотите выйти из аккаунта?</label>
-          <button className={styles["btn"]} mat-button onClick={logOut}>
+            <label>Вы точно хотите выйти из аккаунта?</label>
+            <button className={styles["btn"]} mat-button onClick={logOut}>
               Выйти
             </button>
-            <button  className={styles["btn"]} onClick={props.closeModal} mat-button>
+            <button
+              className={styles["btn"]}
+              onClick={props.closeModal}
+              mat-button
+            >
               Отмена
             </button>
           </div>
-          <div className={styles["card-action"]}>
-           
-          </div>
+          <div className={styles["card-action"]}></div>
         </div>
       </div>
     </Modal>
-  )
+  );
 }

@@ -1,11 +1,11 @@
-import './Header.scss';
+import "./Header.scss";
 
 import { Outlet, useNavigate } from "react-router-dom";
 import useModal from "../../hooks/useModal";
-import { Register} from "../../pages/register/Register";
+import { Register } from "../../pages/register/Register";
 import { CloseModal } from "../../features/close-modal/close-modal";
 import { useEffect } from "react";
-import { authStorage, signOut } from "../../authStorage";
+import { authStorage, signOut } from "../../auth/authStorage";
 
 export const Header = () => {
   const navigate = useNavigate();

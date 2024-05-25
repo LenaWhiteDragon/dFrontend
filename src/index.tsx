@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import {
@@ -29,8 +29,8 @@ import { AddWH } from "./pages/add-wh/AddWH";
 import { AddCategory } from "./pages/add-category/AddCategory";
 import { Login } from "./pages/login/Login";
 import { Register } from "./pages/register/Register";
-import { AuthStorage, authStorage, signIn } from "./authStorage";
 import { OrdersHistory } from "./pages/orders-history/OrdersHistory";
+import { PrivateRoute } from "./auth/PrivateRoute";
 
 // import { LoginPage } from './pages/LoginPage';
 // import { LoginPageModal } from './features/login-page/login-page';
@@ -44,15 +44,25 @@ function Root() {
   // component below are unchanged OrderProduct
   return (
     <Routes>
-      {/* <Route path="/login" element={<Login />} /> */}
       <Route path="/register" element={<Register />} />
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/product" element={<ProductPage />} />
-      <Route path="/orderProduct/:type/:id" element={<OrderProduct />} />
-      <Route path="/addWH" element={<AddWH />} />
-      <Route path="/addCategory" element={<AddCategory />} />
-      <Route path="/ordersHistory" element={<OrdersHistory />} />
-
+      <Route path="/" element={<PrivateRoute Component={LandingPage} />} />
+      <Route
+        path="/product"
+        element={<PrivateRoute Component={ProductPage} />}
+      />
+      <Route
+        path="/orderProduct/:type/:id"
+        element={<PrivateRoute Component={OrderProduct} />}
+      />
+      <Route path="/addWH" element={<PrivateRoute Component={AddWH} />} />
+      <Route
+        path="/addCategory"
+        element={<PrivateRoute Component={AddCategory} />}
+      />
+      <Route
+        path="/ordersHistory"
+        element={<PrivateRoute Component={OrdersHistory} />}
+      />
       <Route path="/about/*" element={<div>About</div>} />
 
       <Route path="/my" element={<div>Мой личный кабинет пациента</div>} />

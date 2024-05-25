@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./Register.module.scss";
 import { useNavigate } from "react-router-dom";
-import { authStorage, signIn } from "../../authStorage";
+import { authStorage, signIn } from "../../auth/authStorage";
 import { useDirty } from "../../hooks/useDirty";
 import { BlobOptions } from "buffer";
 
@@ -108,12 +108,15 @@ export function Register() {
               />
               <span className={styles["red-text"]}>{passErrorMessage}</span>
             </div>
-              <div className={styles["card-action"]}>
-                <button  onClick={logIn} className={styles["modal-action btn waves-effect"]}>
-                  Создать
-                </button>
+            <div className={styles["card-action"]}>
+              <button
+                onClick={logIn}
+                className={styles["modal-action btn waves-effect"]}
+              >
+                Создать
+              </button>
+            </div>
           </div>
-              </div>
         </div>
       </div>
     </div>

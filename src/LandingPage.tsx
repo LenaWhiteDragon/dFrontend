@@ -2,7 +2,7 @@ import React, { ReactNode, useEffect } from "react";
 import "./App.scss";
 import "./LandingPage.scss";
 import { useLocation, useNavigate } from "react-router-dom";
-import { authStorage, signOut } from "./authStorage";
+import { authStorage, signOut } from "./auth/authStorage";
 import { Header } from "./components/Header/Header";
 import { NavBar } from "./components/NavBar/NavBar";
 //import { Button, Modal, ModalBody } from "reactstrap";
@@ -59,7 +59,7 @@ export function LandingPage() {
             src="http://klublady.ru/uploads/posts/2022-07/thumbs/1658582446_18-klublady-ru-p-posokh-asklepiya-tatu-eskiz-foto-18.jpg"
             alt="Clinic Image"
           /> */}
-          <NavBar/>
+          <NavBar />
           <p>
             Мы предлагаем широкий спектр медицинских услуг для обеспечения
             вашего благополучия. Наша команда опытных врачей и персонала

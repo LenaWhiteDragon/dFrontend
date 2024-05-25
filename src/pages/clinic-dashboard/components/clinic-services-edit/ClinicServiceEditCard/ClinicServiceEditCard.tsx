@@ -1,20 +1,22 @@
-import { useNavigate, useOutletContext } from 'react-router-dom';
-import { authStorage } from '../../../../../authStorage';
-import { useEffect, useState } from 'react';
-import useModal from '../../../../../hooks/useModal';
-import './ClinicServiceEditCard.scss';
+import { useNavigate, useOutletContext } from "react-router-dom";
+import { authStorage } from "../../../../../auth/authStorage";
+import { useEffect, useState } from "react";
+import useModal from "../../../../../hooks/useModal";
+import "./ClinicServiceEditCard.scss";
 type Props = {
   id_services: string;
   title: string;
   refreshList: () => void;
-}
+};
 //export const [deleteConfirmed, setDeleteConfirmed] = useState("")
 export function ClinicServiceEditCard(props: Props) {
   const navigate = useNavigate();
   const deleteConfirmModal = useModal();
 
   // useEffect(() => alert(props.doctorId), []);
-  const outletContext = useOutletContext<{ openLoginModal: (pathToRedirect: string) => void }>();
+  const outletContext = useOutletContext<{
+    openLoginModal: (pathToRedirect: string) => void;
+  }>();
   // const [hasDeleted, setHasDeleted] = useState(false);
 
   //   function deleteConfirm() {
@@ -36,37 +38,35 @@ export function ClinicServiceEditCard(props: Props) {
 
   //CОМНИТЕЛЬНЫЙ КОСТЫЛЬ но работает
 
-
-
   async function deleteService() {
     //alert()
-    const response = await fetch('http://localhost:5000/clinic/deleteService', {
-      method: 'DELETE',
+    const response = await fetch("http://localhost:5000/clinic/deleteService", {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         serviceId: props.id_services,
-        id_policlinics: authStorage.userId
+        id_policlinics: authStorage.userId,
       }),
-    })
-    props.refreshList()
+    });
+    props.refreshList();
   }
 
   return (
     <div className="card-serv-clinic">
-      <img src="https://alcovin-sale.goodsalediscount.com/files/alkowin_1/img/icon04.png" alt="Doctor" />
+      <img
+        src="https://alcovin-sale.goodsalediscount.com/files/alkowin_1/img/icon04.png"
+        alt="Doctor"
+      />
       <div className="card-info">
         <h2>{props.title}</h2>
         {/* <p>{props.doctorSpecialty}</p> */}
         {/* <button>Выбрать больницу</button> */}
-        <button onClick={() => deleteConfirmModal.openModal("/")} >
+        <button onClick={() => deleteConfirmModal.openModal("/")}>
           Удалить
         </button>
       </div>
-
     </div>
-
-
   );
 }
