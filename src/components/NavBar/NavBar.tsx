@@ -28,7 +28,7 @@ export const NavBar = () => {
           navigate("/product");
         }}
       >
-        По услугам
+        Поиск оборудования
       </button>
       <button
         className={`tab ${

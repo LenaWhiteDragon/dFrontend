@@ -4,11 +4,9 @@ import { useDebounce } from "../../hooks/useDebounce";
 import { ProductCard } from "./ProductCard/ProductCard";
 import { NavBar } from "../../components/NavBar/NavBar";
 import { Header } from "../../components/Header/Header";
+import { Product } from "../../types/Product";
+import { PageContainer } from "../../layout/PageContainer/PageContainer";
 
-type Product = {
-  id_product: string;
-  name: string;
-};
 export function ProductPage() {
   const [product, setProduct] = useState<Product[]>([]);
   const [value, setValue] = useState<string>("");
@@ -46,7 +44,7 @@ export function ProductPage() {
   return (
     <div>
       <Header />
-      <div className="container">
+      <PageContainer>
         <NavBar />
         <div className="search-container">
           <input
@@ -67,15 +65,14 @@ export function ProductPage() {
         <br></br>
         <span>{serverErrorMessage}</span>
         <div className="card-container">
-          {product.map((product) => (
-            <ProductCard
-              productName={product.name}
-              productId={product.id_product}
-            />
-          ))}
+          {product.map((product) => {
+            return (
+              <ProductCard productName={product.name} productId={product.id} />
+            );
+          })}
           {/* вытаскиваем массив и распределяем по карточкам */}
         </div>
-      </div>
+      </PageContainer>
     </div>
   );
 }

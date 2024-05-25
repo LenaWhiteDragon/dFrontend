@@ -5,6 +5,8 @@ import styles from "./OrdersHistory.module.scss";
 import { CheckIcon } from "../../assets/icons/CheckIcon";
 import { CloseIcon } from "../../assets/icons/CloseIcon";
 import { formatDate } from "../../utils/parseDate";
+import { NavBar } from "../../components/NavBar/NavBar";
+import { PageContainer } from "../../layout/PageContainer/PageContainer";
 
 export const OrdersHistory = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -63,47 +65,50 @@ export const OrdersHistory = () => {
   return (
     <div>
       <Header />
-      <table className={styles.orderTable}>
-        <thead>
-          <tr>
-            <th>Исполнено</th>
-            <th>Id заказа</th>
-            <th>Id клиента</th>
-            <th>Id продукта</th>
-            <th>Название товара</th>
-            <th>Время заказа</th>
-            {Array.from({ length: maxColumns }, (_, index) => (
-              <th key={index}>Количество товаров со склада {index + 1}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map((order) => (
+      <PageContainer>
+        <NavBar />
+        <table className={styles.orderTable}>
+          <thead>
             <tr>
-              <td className={styles.statusContainer}>
-                <div
-                  className={styles.status}
-                  onClick={() =>
-                    putOrderStatus(order.id_order, !order.is_completed)
-                  }
-                >
-                  {order.is_completed ? <CheckIcon /> : <CloseIcon />}
-                </div>
-              </td>
-              <td className={styles.centeredText}>{order.id_order}</td>
-              <td className={styles.centeredText}>{order.user_id}</td>
-              <td className={styles.centeredText}>{order.id_product}</td>
-              <td>{order.name}</td>
-              <td>{formatDate(order.date)}</td>
+              <th>Исполнено</th>
+              <th>Id заказа</th>
+              <th>Id клиента</th>
+              <th>Id продукта</th>
+              <th>Название товара</th>
+              <th>Время заказа</th>
               {Array.from({ length: maxColumns }, (_, index) => (
-                <td key={index} className={styles.centeredText}>
-                  {order.order_number[index]}
-                </td>
+                <th key={index}>Количество товаров со склада {index + 1}</th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {orders.map((order) => (
+              <tr>
+                <td className={styles.statusContainer}>
+                  <div
+                    className={styles.status}
+                    onClick={() =>
+                      putOrderStatus(order.id_order, !order.is_completed)
+                    }
+                  >
+                    {order.is_completed ? <CheckIcon /> : <CloseIcon />}
+                  </div>
+                </td>
+                <td className={styles.centeredText}>{order.id_order}</td>
+                <td className={styles.centeredText}>{order.user_id}</td>
+                <td className={styles.centeredText}>{order.id_product}</td>
+                <td>{order.name}</td>
+                <td>{formatDate(order.date)}</td>
+                {Array.from({ length: maxColumns }, (_, index) => (
+                  <td key={index} className={styles.centeredText}>
+                    {order.order_number[index]}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </PageContainer>
     </div>
   );
 };

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Header } from "../../components/Header/Header";
 import "./AddWH.css";
+import { NavBar } from "../../components/NavBar/NavBar";
+import { PageContainer } from "../../layout/PageContainer/PageContainer";
 
 export const AddWH = () => {
   const [WHname, setWHname] = useState("");
@@ -20,24 +22,27 @@ export const AddWH = () => {
   return (
     <div>
       <Header />
-      <div className="AddWHContainer">
-        <h1 className="Title">Добавление склада</h1>
-        <input
-          className="fieldName"
-          type="text"
-          placeholder="Введите название склада"
-          value={WHname}
-          onChange={(e) => setWHname(e.target.value)}
-        />
-        <input
-          className="fieldAddress"
-          type="text"
-          placeholder="Введите адрес склада"
-          value={WHaddress}
-          onChange={(e) => setWHaddress(e.target.value)}
-        />
-        <button onClick={AddWhFront}>Добавить</button>
-      </div>
+      <PageContainer>
+        <NavBar />
+        <div className="AddWHContainer">
+          <h1 className="Title">Добавление склада</h1>
+          <input
+            className="fieldName"
+            type="text"
+            placeholder="Введите название склада"
+            value={WHname}
+            onChange={(e) => setWHname(e.target.value)}
+          />
+          <input
+            className="fieldAddress"
+            type="text"
+            placeholder="Введите адрес склада"
+            value={WHaddress}
+            onChange={(e) => setWHaddress(e.target.value)}
+          />
+          <button onClick={AddWhFront}>Добавить</button>
+        </div>
+      </PageContainer>
     </div>
   );
 };

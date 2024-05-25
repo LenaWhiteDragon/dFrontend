@@ -20,3 +20,5 @@ export interface Product {
   category: ProductCategory;
   atts: ProductAttribute[];
 }
+
+export type ProductSearch = Omit<Product, "number">;

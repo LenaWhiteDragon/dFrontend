@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import "./ProductCard.scss";
 import imagePlaceholder from "../../../assets/images/image_placeholder.png";
+
 type Props = {
   productName: string;
-  productId: string;
+  productId: number;
 };
 
 export function ProductCard(props: Props) {
