@@ -50,11 +50,37 @@
   padding: 30px;
   height: 600px;
 }
-.select{
+
+.select {
   background-color: white;
+}
+.rangeContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.inputContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
 }
 .cardContainer {
   width: 60%;
   margin: 20px 0;
   border-radius: 10px;
+}
+
+.atts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.attsinput {
+  width: 100px;
+}
+
+.attlabel {
+  width: 300px;
+  border-bottom: 2px solid black;
 }

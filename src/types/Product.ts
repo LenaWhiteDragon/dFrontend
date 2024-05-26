@@ -1,15 +1,8 @@
+import { Attribute } from "./Attribute";
+
 export interface ProductCategory {
   id: number;
   name: string;
-}
-
-export interface ProductAttribute {
-  id: number;
-  name: string;
-  type: string;
-  var_integer?: number;
-  var_boolean?: boolean;
-  var_real?: number;
 }
 
 export interface Product {
@@ -18,7 +11,7 @@ export interface Product {
   photo?: string;
   number: number[];
   category: ProductCategory;
-  atts: ProductAttribute[];
+  atts: Attribute[];
 }
 
 export type ProductSearch = Omit<Product, "number">;

@@ -8,6 +8,7 @@ import { Product } from "../../types/Product";
 import { PageContainer } from "../../layout/PageContainer/PageContainer";
 import { Category } from "../../types/Category";
 import { useSearchParams } from "react-router-dom";
+import { CategoryAttribute } from "../../types/Attribute";
 import axios from "axios";
 
 export function ProductPage() {
@@ -17,6 +18,7 @@ export function ProductPage() {
   const [serverErrorMessage, setServerErrorMessage] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
   const [categorySelectValue, setCategorySelectValue] = useState<string>("");
+  const [attrs, setAttrs] = useState<CategoryAttribute[]>([]);
   const [isQueryParamsGot, setIsQueryParamsGot] = useState<boolean>(false);
 
   const [searchParams, setSearchParams] = useSearchParams("");
@@ -25,6 +27,8 @@ export function ProductPage() {
     const myParam = searchParams.get("category");
     setIsQueryParamsGot(true);
     setCategorySelectValue(myParam || "");
+
+    getCategories();
   }, []);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -33,20 +37,26 @@ export function ProductPage() {
   };
 
   useEffect(() => {
-    if (isQueryParamsGot) {
-      setSearchParams({ category: categorySelectValue.toString() });
-    }
-    fetchProduct(debouncedValue);
+    getAttrsByCategory(categorySelectValue);
   }, [categorySelectValue]);
-
-  useEffect(() => {
-    getCategories();
-  }, []);
 
   useEffect(() => {
     // alert(debouncedValue)
     fetchProduct(debouncedValue);
   }, [debouncedValue]);
+
+  async function getAttrsByCategory(category: string) {
+    try {
+      if (categorySelectValue !== "all") {
+        const response = await axios.get(
+          `http://localhost:5000/category/getCategoriesAtts/${category}`
+        );
+        setAttrs(response.data.atts);
+      }
+    } catch (err) {
+      setAttrs([]);
+    }
+  }
 
   async function fetchProduct(filter: string = "") {
     // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
@@ -124,6 +134,34 @@ export function ProductPage() {
               <option value={category.id_category}>{category.name}</option>
             ))}
           </select>
+          <div className={styles.atts}>
+            {attrs.map((att) => {
+              if (att.type === "integer" || att.type === "real") {
+                return (
+                  <div>
+                    <h4 className={styles.attlabel}><label htmlFor={att.name}>{att.name}</label></h4>
+                    <div className={styles.rangeContainer}>
+                      <div className={styles.inputContainer}>
+                        <label>От</label>
+                        <input className={styles.attsinput} type="number" id={att.name} />
+                      </div>
+                      <div className={styles.inputContainer}>
+                        <label>до</label>
+                        <input className={styles.attsinput} type="number" id={att.name} />
+                      </div>
+                    </div>
+                  </div>
+                );
+              } else if (att.type === "boolean") {
+                return (
+                  <div className={styles.inputContainer}>
+                    <h4 className={styles.attlabel}><label htmlFor={att.name}>{att.name}</label></h4>
+                    <input type="checkbox" id={att.name} />
+                  </div>
+                );
+              }
+            })}
+          </div>
         </div>
         <div className={styles.cardContainer}>
           {products.length ? (
