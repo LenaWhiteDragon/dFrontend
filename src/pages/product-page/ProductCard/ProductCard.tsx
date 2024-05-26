@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "./ProductCard.scss";
+import styles from "./ProductCard.module.scss";
 import imagePlaceholder from "../../../assets/images/image_placeholder.png";
 
 type Props = {
@@ -15,9 +15,9 @@ export function ProductCard(props: Props) {
   }
 
   return (
-    <div className="card-doc">
+    <div className={styles.cardDoc}>
       <img src={imagePlaceholder} alt="Doctor" />
-      <div className="card-info">
+      <div className={styles.cardInfo}>
         <p>{props.productName}</p>
         {/* <p>{props.doctorSpecialty}</p> */}
         <button onClick={goToProduct}>Перейти к товару</button>
