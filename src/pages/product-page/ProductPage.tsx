@@ -37,7 +37,11 @@ export function ProductPage() {
   };
 
   useEffect(() => {
+    if (isQueryParamsGot) {
+      setSearchParams({ category: categorySelectValue.toString() });
+    }
     getAttrsByCategory(categorySelectValue);
+    fetchProduct(debouncedValue);
   }, [categorySelectValue]);
 
   useEffect(() => {
