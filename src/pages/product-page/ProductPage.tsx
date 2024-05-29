@@ -8,71 +8,108 @@ import { Product } from "../../types/Product";
 import { PageContainer } from "../../layout/PageContainer/PageContainer";
 import { Category } from "../../types/Category";
 import { useSearchParams } from "react-router-dom";
-import { CategoryAttribute } from "../../types/Attribute";
+import { Attribute, CategoryAttribute } from "../../types/Attribute";
 import axios from "axios";
+
+interface GetCategoryAttsResponse {
+  atts: CategoryAttribute[];
+}
 
 export function ProductPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [value, setValue] = useState<string>("");
-  const debouncedValue = useDebounce<string>(value, 500); //для задержки при вводе фильтра
+  const debouncedValue = useDebounce<string>(value, 500); // для задержки при вводе фильтра
   const [serverErrorMessage, setServerErrorMessage] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
-  const [categorySelectValue, setCategorySelectValue] = useState<string>("");
+  const [categorySelectValue, setCategorySelectValue] = useState<string>("all");
   const [attrs, setAttrs] = useState<CategoryAttribute[]>([]);
+  const [filters, setFilters] = useState<Attribute[]>([]);
   const [isQueryParamsGot, setIsQueryParamsGot] = useState<boolean>(false);
 
   const [searchParams, setSearchParams] = useSearchParams("");
 
   useEffect(() => {
-    const myParam = searchParams.get("category");
+    const categoryParam = searchParams.get("category");
+    if (categoryParam) {
+      setCategorySelectValue(categoryParam);
+    }
     setIsQueryParamsGot(true);
-    setCategorySelectValue(myParam || "");
-
     getCategories();
   }, []);
+
+  useEffect(() => {
+    if (isQueryParamsGot) {
+      setSearchParams({
+        category: categorySelectValue.toString(),
+      });
+      getAttrsByCategory(categorySelectValue);
+      fetchProduct(debouncedValue);
+    }
+  }, [categorySelectValue, isQueryParamsGot]);
+
+  useEffect(() => {
+    let initialFilters: Attribute[] = [...attrs];
+    initialFilters = initialFilters.map((attr) => {
+      if (attr.type === "boolean") attr.var_boolean = true;
+      return attr;
+    });
+    console.log(initialFilters);
+    setFilters(initialFilters);
+  }, [attrs]);
+
+  useEffect(() => {
+    fetchProduct(debouncedValue, filters);
+  }, [filters]);
+
+  useEffect(() => {
+    if (isQueryParamsGot) {
+      fetchProduct(debouncedValue);
+    }
+  }, [debouncedValue, isQueryParamsGot]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
     setServerErrorMessage("");
   };
 
-  useEffect(() => {
-    if (isQueryParamsGot) {
-      setSearchParams({ category: categorySelectValue.toString() });
-    }
-    getAttrsByCategory(categorySelectValue);
-    fetchProduct(debouncedValue);
-  }, [categorySelectValue]);
-
-  useEffect(() => {
-    // alert(debouncedValue)
-    fetchProduct(debouncedValue);
-  }, [debouncedValue]);
-
   async function getAttrsByCategory(category: string) {
     try {
-      if (categorySelectValue !== "all") {
-        const response = await axios.get(
+      if (category !== "all") {
+        const response = await axios.get<GetCategoryAttsResponse>(
           `http://localhost:5000/category/getCategoriesAtts/${category}`
         );
         setAttrs(response.data.atts);
+      } else {
+        setAttrs([]);
       }
     } catch (err) {
       setAttrs([]);
     }
   }
 
-  async function fetchProduct(filter: string = "") {
-    // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
-    //   email: email,
-    //   password: password
-    // }))
-
+  async function fetchProduct(search: string = "", Attrs?: Attribute[]) {
     try {
+      const searchAttrs = (Attrs || []).reduce((acc, attr) => {
+        switch (attr.type) {
+          case "boolean":
+            acc[attr.id] = attr.var_boolean;
+            break;
+          case "integer":
+            acc[attr.id] = attr.var_integer;
+            break;
+          case "real":
+            acc[attr.id] = attr.var_real;
+            break;
+          default:
+            break;
+        }
+        return acc;
+      }, {} as { [key: number]: any });
       const response = await axios.get("http://localhost:5000/product", {
         params: {
-          filter: filter,
+          filter: search,
           c_id: categorySelectValue !== "all" ? categorySelectValue : "",
+          searchAttrs: JSON.stringify(searchAttrs),
         },
       });
       setProducts(response.data);
@@ -83,12 +120,7 @@ export function ProductPage() {
 
   async function getCategories() {
     try {
-      const response = await axios.get(`http://localhost:5000/category`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.get(`http://localhost:5000/category`);
       setCategories(response.data);
     } catch (err) {
       setCategories([]);
@@ -135,32 +167,59 @@ export function ProductPage() {
             </option>
 
             {categories.map((category: Category) => (
-              <option value={category.id_category}>{category.name}</option>
+              <option key={category.id_category} value={category.id_category}>
+                {category.name}
+              </option>
             ))}
           </select>
           <div className={styles.atts}>
-            {attrs.map((att) => {
+            {filters.map((att) => {
               if (att.type === "integer" || att.type === "real") {
                 return (
-                  <div>
-                    <h4 className={styles.attlabel}><label htmlFor={att.name}>{att.name}</label></h4>
+                  <div key={att.id}>
+                    <h4 className={styles.attlabel}>
+                      <label htmlFor={att.name}>{att.name}</label>
+                    </h4>
                     <div className={styles.rangeContainer}>
                       <div className={styles.inputContainer}>
                         <label>От</label>
-                        <input className={styles.attsinput} type="number" id={att.name} />
+                        <input
+                          className={styles.attsinput}
+                          type="number"
+                          id={att.name}
+                        />
                       </div>
                       <div className={styles.inputContainer}>
                         <label>до</label>
-                        <input className={styles.attsinput} type="number" id={att.name} />
+                        <input
+                          className={styles.attsinput}
+                          type="number"
+                          id={att.name}
+                        />
                       </div>
                     </div>
                   </div>
                 );
               } else if (att.type === "boolean") {
                 return (
-                  <div className={styles.inputContainer}>
-                    <h4 className={styles.attlabel}><label htmlFor={att.name}>{att.name}</label></h4>
-                    <input type="checkbox" id={att.name} />
+                  <div key={att.id} className={styles.inputContainer}>
+                    <h4 className={styles.attlabel}>
+                      <label htmlFor={att.name}>{att.name}</label>
+                    </h4>
+                    <input
+                      type="checkbox"
+                      id={att.id.toString()}
+                      checked={att.var_boolean}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setFilters((prevFilters) =>
+                          prevFilters.map((filter) =>
+                            filter.id === att.id
+                              ? { ...filter, var_boolean: e.target.checked }
+                              : filter
+                          )
+                        )
+                      }
+                    />
                   </div>
                 );
               }
