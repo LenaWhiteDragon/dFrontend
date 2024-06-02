@@ -7,4 +7,11 @@ export interface Attribute {
   var_real?: number;
 }
 
+export type Filter = Pick<Attribute, "id" | "name" | "type" | "var_boolean"> & {
+  range_min?: number;
+  range_max?: number;
+};
+
+export type Range = { id_att: number; minValue: number; maxValue: number };
+
 export type CategoryAttribute = Pick<Attribute, "id" | "name" | "type">;

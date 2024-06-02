@@ -8,7 +8,7 @@ import { Product } from "../../types/Product";
 import { PageContainer } from "../../layout/PageContainer/PageContainer";
 import { Category } from "../../types/Category";
 import { useSearchParams } from "react-router-dom";
-import { Attribute, CategoryAttribute } from "../../types/Attribute";
+import { CategoryAttribute, Filter, Range } from "../../types/Attribute";
 import axios from "axios";
 
 interface GetCategoryAttsResponse {
@@ -23,7 +23,7 @@ export function ProductPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [categorySelectValue, setCategorySelectValue] = useState<string>("all");
   const [attrs, setAttrs] = useState<CategoryAttribute[]>([]);
-  const [filters, setFilters] = useState<Attribute[]>([]);
+  const [filters, setFilters] = useState<Filter[]>([]);
   const [isQueryParamsGot, setIsQueryParamsGot] = useState<boolean>(false);
 
   const [searchParams, setSearchParams] = useSearchParams("");
@@ -48,12 +48,23 @@ export function ProductPage() {
   }, [categorySelectValue, isQueryParamsGot]);
 
   useEffect(() => {
-    let initialFilters: Attribute[] = [...attrs];
-    initialFilters = initialFilters.map((attr) => {
-      if (attr.type === "boolean") attr.var_boolean = true;
-      return attr;
+    let initialFilters: Filter[] = attrs.map((attr) => {
+      const typedfilter =
+        attr.type === "boolean"
+          ? {
+              var_boolean: true,
+            }
+          : {
+              range_min: 0,
+              range_max: 0,
+            };
+      return {
+        id: attr.id,
+        name: attr.name,
+        type: attr.type,
+        ...typedfilter,
+      };
     });
-    console.log(initialFilters);
     setFilters(initialFilters);
   }, [attrs]);
 
@@ -67,10 +78,41 @@ export function ProductPage() {
     }
   }, [debouncedValue, isQueryParamsGot]);
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const onSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
     setServerErrorMessage("");
   };
+
+  const onRangeChange =
+    (filter: Filter, range: "min" | "max") =>
+    (e: React.ChangeEvent<HTMLInputElement>) =>
+      setFilters((prevFilters) =>
+        prevFilters.map((prevFilter) =>
+          prevFilter.id === filter.id
+            ? {
+                ...filter,
+                range_min:
+                  range === "min"
+                    ? Number(e.target.value)
+                    : prevFilter.range_min,
+                range_max:
+                  range === "max"
+                    ? Number(e.target.value)
+                    : prevFilter.range_max,
+              }
+            : prevFilter
+        )
+      );
+
+  const onCheckboxChange =
+    (filter: Filter) => (e: React.ChangeEvent<HTMLInputElement>) =>
+      setFilters((prevFilters) =>
+        prevFilters.map((filter) =>
+          filter.id === filter.id
+            ? { ...filter, var_boolean: e.target.checked }
+            : filter
+        )
+      );
 
   async function getAttrsByCategory(category: string) {
     try {
@@ -87,29 +129,30 @@ export function ProductPage() {
     }
   }
 
-  async function fetchProduct(search: string = "", Attrs?: Attribute[]) {
+  async function fetchProduct(search: string = "", filters?: Filter[]) {
     try {
-      const searchAttrs = (Attrs || []).reduce((acc, attr) => {
-        switch (attr.type) {
-          case "boolean":
-            acc[attr.id] = attr.var_boolean;
-            break;
-          case "integer":
-            acc[attr.id] = attr.var_integer;
-            break;
-          case "real":
-            acc[attr.id] = attr.var_real;
-            break;
-          default:
-            break;
+      const searchAttrs = (filters || []).reduce((acc, filter) => {
+        if (filter.type === "boolean") {
+          acc[filter.id] = filter.var_boolean;
         }
         return acc;
       }, {} as { [key: number]: any });
+      const ranges = (filters || []).reduce((acc, filter) => {
+        if (filter.type === "integer" || filter.type === "real") {
+          acc.push({
+            id_att: filter.id,
+            minValue: filter.range_min || 0,
+            maxValue: filter.range_max || 99999999,
+          });
+        }
+        return acc;
+      }, [] as Range[]);
       const response = await axios.get("http://localhost:5000/product", {
         params: {
           filter: search,
           c_id: categorySelectValue !== "all" ? categorySelectValue : "",
           searchAttrs: JSON.stringify(searchAttrs),
+          ranges: JSON.stringify(ranges),
         },
       });
       setProducts(response.data);
@@ -134,7 +177,7 @@ export function ProductPage() {
         <NavBar />
         <div className={styles.searchContainer}>
           <input
-            onChange={handleChange}
+            onChange={onSearchChange}
             value={value}
             type="text"
             id="searchInput"
@@ -173,12 +216,12 @@ export function ProductPage() {
             ))}
           </select>
           <div className={styles.atts}>
-            {filters.map((att) => {
-              if (att.type === "integer" || att.type === "real") {
+            {filters.map((filter) => {
+              if (filter.type === "integer" || filter.type === "real") {
                 return (
-                  <div key={att.id}>
+                  <div key={filter.id}>
                     <h4 className={styles.attlabel}>
-                      <label htmlFor={att.name}>{att.name}</label>
+                      <label htmlFor={filter.name}>{filter.name}</label>
                     </h4>
                     <div className={styles.rangeContainer}>
                       <div className={styles.inputContainer}>
@@ -186,7 +229,10 @@ export function ProductPage() {
                         <input
                           className={styles.attsinput}
                           type="number"
-                          id={att.name}
+                          min={0}
+                          id={filter.id.toString()}
+                          value={filter.range_min}
+                          onChange={onRangeChange(filter, "min")}
                         />
                       </div>
                       <div className={styles.inputContainer}>
@@ -194,31 +240,26 @@ export function ProductPage() {
                         <input
                           className={styles.attsinput}
                           type="number"
-                          id={att.name}
+                          min={filter.range_min}
+                          id={filter.name}
+                          value={filter.range_max}
+                          onChange={onRangeChange(filter, "max")}
                         />
                       </div>
                     </div>
                   </div>
                 );
-              } else if (att.type === "boolean") {
+              } else if (filter.type === "boolean") {
                 return (
-                  <div key={att.id} className={styles.inputContainer}>
+                  <div key={filter.id} className={styles.inputContainer}>
                     <h4 className={styles.attlabel}>
-                      <label htmlFor={att.name}>{att.name}</label>
+                      <label htmlFor={filter.name}>{filter.name}</label>
                     </h4>
                     <input
                       type="checkbox"
-                      id={att.id.toString()}
-                      checked={att.var_boolean}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        setFilters((prevFilters) =>
-                          prevFilters.map((filter) =>
-                            filter.id === att.id
-                              ? { ...filter, var_boolean: e.target.checked }
-                              : filter
-                          )
-                        )
-                      }
+                      id={filter.id.toString()}
+                      checked={filter.var_boolean}
+                      onChange={onCheckboxChange(filter)}
                     />
                   </div>
                 );
