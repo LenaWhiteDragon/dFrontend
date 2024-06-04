@@ -8,6 +8,10 @@ import { CategoryAttribute } from "../../types/Attribute";
 
 export const AddCategory = () => {
   const [categoryName, setCategoryName] = useState("");
+  const [newAttName, setNewAttName] = useState("");
+  const [newAttType, setNewAttType] = useState<"integer" | "real" | "boolean">(
+    "boolean"
+  );
   const [attrs, setAttrs] = useState<CategoryAttribute[]>([]);
   const [changeAtts, setChangeAtts] = useState<number[]>([]);
 
@@ -28,6 +32,19 @@ export const AddCategory = () => {
       })
       .catch((error) => {
         console.error("There was an error adding the category!", error);
+      });
+  }
+  function AddNewAtt() {
+    axios
+      .post("http://localhost:5000/category/addNewAtt", {
+        name: newAttName,
+        type: newAttType,
+      })
+      .then((response) => {
+        console.log(response.data);
+        alert("Характеристика создана!");
+        setAttrs([...attrs, ...response.data]);
+        setNewAttName("");
       });
   }
 
@@ -91,6 +108,55 @@ export const AddCategory = () => {
           </div>
 
           <button onClick={AddCategoryFront}>Добавить</button>
+        </div>
+
+        <div className={styles.AddCategoryContainer}>
+          <h4 className={styles.Title}>
+            <i>Или сначала добавьте новую характеристику</i>
+          </h4>
+          <h2 className={styles.Title}>Создание характеристики</h2>
+          <input
+            className={styles.fieldName}
+            type="text"
+            placeholder="Введите название характеристики"
+            value={newAttName}
+            onChange={(e) => setNewAttName(e.target.value)}
+          />
+          <p>
+            К характеристикам относятся:{" "}
+            <i>мощность, скорость, RAM, bluetooth-подключение и т.д.</i>
+          </p>
+
+          <h3>И выберите тип:</h3>
+          <div>
+            <input
+              type="radio"
+              id="typeChoice1"
+              value="boolean"
+              checked={newAttType === "boolean"}
+              onChange={() => setNewAttType("boolean")}
+            />
+            <label htmlFor="typeChoice1">Логическое да/нет</label>
+
+            <input
+              type="radio"
+              id="typeChoice2"
+              value="integer"
+              checked={newAttType === "integer"}
+              onChange={() => setNewAttType("integer")}
+            />
+            <label htmlFor="typeChoice2">Целое число</label>
+
+            <input
+              type="radio"
+              id="typeChoice3"
+              value="real"
+              checked={newAttType === "real"}
+              onChange={() => setNewAttType("real")}
+            />
+            <label htmlFor="typeChoice3">Число с запятой</label>
+          </div>
+          <button onClick={AddNewAtt}>Добавить</button>
         </div>
       </PageContainer>
     </div>
