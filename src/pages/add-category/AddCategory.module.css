@@ -8,9 +8,13 @@
 
 .fieldName {
   padding: 10px;
-  /* width: 65%; */
 }
 
 .Title {
   text-align: center;
+}
+.OldAtts {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }

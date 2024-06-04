@@ -12,7 +12,7 @@ export const NavBar = () => {
           navigate("/addWH");
         }}
       >
-        Добавить склад
+        Создать склад
       </button>
       <button
         className={`tab ${location.pathname == "/addCategory" ? "active" : ""}`}
@@ -20,7 +20,7 @@ export const NavBar = () => {
           navigate("/addCategory");
         }}
       >
-        Добавить категорию
+        Создать категорию
       </button>
       <button
         className={`tab ${location.pathname == "/product" ? "active" : ""}`}
