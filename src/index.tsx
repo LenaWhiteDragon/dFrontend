@@ -31,6 +31,7 @@ import { Login } from "./pages/login/Login";
 import { Register } from "./pages/register/Register";
 import { OrdersHistory } from "./pages/orders-history/OrdersHistory";
 import { PrivateRoute } from "./auth/PrivateRoute";
+import { CreateProduct } from "./pages/create-product/CreateProduct";
 
 // import { LoginPage } from './pages/LoginPage';
 // import { LoginPageModal } from './features/login-page/login-page';
@@ -53,6 +54,10 @@ function Root() {
       <Route
         path="/orderProduct/:type/:id"
         element={<PrivateRoute Component={OrderProduct} />}
+      />
+      <Route
+        path="/createProduct"
+        element={<PrivateRoute Component={CreateProduct} />}
       />
       <Route path="/addWH" element={<PrivateRoute Component={AddWH} />} />
       <Route

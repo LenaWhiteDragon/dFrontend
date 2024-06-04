@@ -1,45 +1,33 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import "./NavBar.scss";
 
-export const NavBar = () => {
+interface HeaderButtonProps {
+  route: string;
+  title: string;
+}
+
+const HeaderButton = ({ route, title }: HeaderButtonProps) => {
   const navigate = useNavigate();
   const location = useLocation();
+
   return (
-    <div className="search-tabs">
-      <button
-        className={`tab ${location.pathname == "/addWH" ? "active" : ""}`}
-        onClick={() => {
-          navigate("/addWH");
-        }}
-      >
-        Создать склад
-      </button>
-      <button
-        className={`tab ${location.pathname == "/addCategory" ? "active" : ""}`}
-        onClick={() => {
-          navigate("/addCategory");
-        }}
-      >
-        Создать категорию
-      </button>
-      <button
-        className={`tab ${location.pathname == "/product" ? "active" : ""}`}
-        onClick={() => {
-          navigate("/product");
-        }}
-      >
-        Поиск оборудования
-      </button>
-      <button
-        className={`tab ${
-          location.pathname == "/ordersHistory" ? "active" : ""
-        }`}
-        onClick={() => {
-          navigate("/ordersHistory");
-        }}
-      >
-        История заказов
-      </button>
-    </div>
+    <button
+      className={`tab ${location.pathname == `${route}` ? "active" : ""}`}
+      onClick={() => {
+        navigate(route);
+      }}
+    >
+      {title}
+    </button>
   );
 };
+
+export const NavBar = () => (
+  <div className="search-tabs">
+    <HeaderButton route="/addWH" title="Создать склад" />
+    <HeaderButton route="/addCategory" title="Создать категорию" />
+    <HeaderButton route="/createProduct" title="Создать оборудование" />
+    <HeaderButton route="/product" title="Поиск оборудования" />
+    <HeaderButton route="/ordersHistory" title="История заказов" />
+  </div>
+);
