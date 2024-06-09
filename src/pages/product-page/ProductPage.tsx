@@ -10,6 +10,7 @@ import { Category } from "../../types/Category";
 import { useSearchParams } from "react-router-dom";
 import { CategoryAttribute, Filter, Range } from "../../types/Attribute";
 import axios from "axios";
+import { removeLeadingZeros } from "../../tools/removeLeadingZeros";
 
 interface GetCategoryAttsResponse {
   atts: CategoryAttribute[];
@@ -231,8 +232,12 @@ export function ProductPage() {
                           type="number"
                           min={0}
                           id={filter.id.toString()}
-                          value={filter.range_min}
-                          onChange={onRangeChange(filter, "min")}
+                          value={
+                            filter.range_min !== undefined
+                              ? removeLeadingZeros(filter.range_min.toString())
+                              : ""
+                          }
+                          onChange={(e) => onRangeChange(filter, "min")(e)}
                         />
                       </div>
                       <div className={styles.inputContainer}>
@@ -242,8 +247,12 @@ export function ProductPage() {
                           type="number"
                           min={filter.range_min}
                           id={filter.name}
-                          value={filter.range_max}
-                          onChange={onRangeChange(filter, "max")}
+                          value={
+                            filter.range_max !== undefined
+                              ? removeLeadingZeros(filter.range_max.toString())
+                              : ""
+                          }
+                          onChange={(e) => onRangeChange(filter, "max")(e)}
                         />
                       </div>
                     </div>
