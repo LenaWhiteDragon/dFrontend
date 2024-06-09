@@ -106,7 +106,7 @@ export const OrderProduct = () => {
         id_user: 5,
       }),
     });
-    alert('Заказ выполнен')
+    alert("Заказ выполнен");
   }
 
   useEffect(() => {
@@ -142,6 +142,23 @@ export const OrderProduct = () => {
     getWarehouse();
   }, []);
 
+  useEffect(() => {
+    if (product && warehouseList.length !== 0) {
+      if (warehouseList.length !== product.number.length) {
+        const updatedNumbers = Array(warehouseList.length).fill(0);
+        for (let i = 0; i < product.number.length; i++) {
+          updatedNumbers[i] = product.number[i];
+        }
+        setProduct((prevProduct) => {
+          if (prevProduct) {
+            return { ...prevProduct, number: updatedNumbers };
+          }
+          return prevProduct;
+        });
+      }
+    }
+  }, [product, warehouseList]);
+
   return (
     <div>
       <Header />
@@ -170,7 +187,7 @@ export const OrderProduct = () => {
         <div className="whProductNumberContainer">
           {warehouseList.map(
             (wh, index) =>
-              product?.number[index] !== undefined && (
+              product !== undefined && (
                 <WareHouseInfo
                   warehouse={wh}
                   product={product}
@@ -181,7 +198,9 @@ export const OrderProduct = () => {
               )
           )}
         </div>
-        <button className="buttonOrder" onClick={CreateOrder}>Заказать</button>
+        <button className="buttonOrder" onClick={CreateOrder}>
+          Заказать
+        </button>
       </div>
     </div>
   );
