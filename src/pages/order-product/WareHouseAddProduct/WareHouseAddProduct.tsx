@@ -20,9 +20,21 @@ export const WareHouseAddProduct = ({
 }: WareHouseAddProductProps) => {
   const amount = product.number[index];
 
+  function decrementArrayValue(array: number[], index: number) {
+    const newArray = [...array];
+    newArray[index] = newArray[index] - 1;
+    setAddProductAmount(newArray);
+  }
+
   function setArrayValue(array: number[], index: number, value: number) {
     const newArray = [...array];
     newArray[index] = value;
+    setAddProductAmount(newArray);
+  }
+
+  function incrementArrayValue(array: number[], index: number) {
+    const newArray = [...array];
+    newArray[index] = newArray[index] + 1;
     setAddProductAmount(newArray);
   }
 
@@ -31,7 +43,15 @@ export const WareHouseAddProduct = ({
       <h2>
         {warehouse.name} склад: {amount} штук
       </h2>
-      <div>
+      <div className={styles.buttonsContainer}>
+        <button
+          className="productOrderButton"
+          disabled={addProductAmount[index] === 0}
+          onClick={() => decrementArrayValue(addProductAmount, index)}
+        >
+          -
+        </button>
+
         <input
           type="number"
           className={styles.productAddProductAmountInput}
@@ -44,6 +64,12 @@ export const WareHouseAddProduct = ({
           min={0}
           max={99999999}
         />
+        <button
+          className={styles.productOrderButton}
+          onClick={() => incrementArrayValue(addProductAmount, index)}
+        >
+          +
+        </button>
       </div>
     </div>
   );
