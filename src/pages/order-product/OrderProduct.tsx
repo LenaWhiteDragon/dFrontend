@@ -7,6 +7,7 @@ import { Product } from "../../types/Product";
 import { WareHouse } from "../../types/WareHouse";
 import { WareHouseOrder } from "./WareHouseOrder/WareHouseOrder";
 import { WareHouseAddProduct } from "./WareHouseAddProduct/WareHouseAddProduct";
+import { authStorage } from "../../features/auth/authStorage";
 
 export const OrderProduct = () => {
   const [product, setProduct] = useState<Product>();
@@ -42,7 +43,7 @@ export const OrderProduct = () => {
         body: JSON.stringify({
           id_product: product?.id,
           // number: addProductAmount, // ЗДЕСЬ УБЕДИТЬСЯ ЧТО НА БЕКЕ ПРОИСХОДИТ
-          id_user: 5,
+          id_user: authStorage.userId,
         }),
       }
     );
@@ -58,7 +59,7 @@ export const OrderProduct = () => {
       body: JSON.stringify({
         id_product: product?.id,
         number: orderAmount,
-        id_user: 5,
+        id_user: authStorage.userId,
       }),
     });
     alert("Заказ выполнен");
