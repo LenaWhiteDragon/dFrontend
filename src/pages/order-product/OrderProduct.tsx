@@ -8,6 +8,18 @@ import { WareHouse } from "../../types/WareHouse";
 import { WareHouseOrder } from "./WareHouseOrder/WareHouseOrder";
 import { WareHouseAddProduct } from "./WareHouseAddProduct/WareHouseAddProduct";
 import { authStorage } from "../../features/auth/authStorage";
+import { UserRole } from "../../types/UserRole";
+
+const SUPPLY_ROLES_AVAILABLE: UserRole[] = [
+  UserRole.Whman,
+  UserRole.Whboss,
+  UserRole.Admin,
+];
+const ORDER_ROLES_AVAILABLE: UserRole[] = [
+  UserRole.Operator,
+  UserRole.Whboss,
+  UserRole.Admin,
+];
 
 export const OrderProduct = () => {
   const [product, setProduct] = useState<Product>();
@@ -143,46 +155,54 @@ export const OrderProduct = () => {
         <div className={styles.productWHAmountContainer}>
           <h3>Всего в наличии: {productAmount}</h3>
         </div>
-        <div className={styles.whProductNumberContainer}>
-          <h2>Добавить продукты на склады</h2>
-          {warehouseList.map(
-            (wh, index) =>
-              product !== undefined && (
-                <WareHouseAddProduct
-                  warehouse={wh}
-                  product={product}
-                  addProductAmount={addProductAmount}
-                  setAddProductAmount={setAddProductAmount}
-                  index={index}
-                />
-              )
-          )}
-        </div>
-        <button
-          className={styles.buttonOrder}
-          onClick={CreateSupply}
-          style={{ marginBottom: 50 }}
-        >
-          Добавить поставку
-        </button>
-        <div className={styles.whProductNumberContainer}>
-          <h2>Заказать продукты со складов</h2>
-          {warehouseList.map(
-            (wh, index) =>
-              product !== undefined && (
-                <WareHouseOrder
-                  warehouse={wh}
-                  product={product}
-                  orderAmount={orderAmount}
-                  setOrderAmount={setOrderAmount}
-                  index={index}
-                />
-              )
-          )}
-        </div>
-        <button className={styles.buttonOrder} onClick={CreateOrder}>
-          Заказать
-        </button>
+        {SUPPLY_ROLES_AVAILABLE.includes(Number(authStorage.roleId)) && (
+          <>
+            <div className={styles.whProductNumberContainer}>
+              <h2>Добавить продукты на склады</h2>
+              {warehouseList.map(
+                (wh, index) =>
+                  product !== undefined && (
+                    <WareHouseAddProduct
+                      warehouse={wh}
+                      product={product}
+                      addProductAmount={addProductAmount}
+                      setAddProductAmount={setAddProductAmount}
+                      index={index}
+                    />
+                  )
+              )}
+            </div>
+            <button
+              className={styles.buttonOrder}
+              onClick={CreateSupply}
+              style={{ marginBottom: 50 }}
+            >
+              Добавить поставку
+            </button>
+          </>
+        )}
+        {ORDER_ROLES_AVAILABLE.includes(Number(authStorage.roleId)) && (
+          <>
+            <div className={styles.whProductNumberContainer}>
+              <h2>Заказать продукты со складов</h2>
+              {warehouseList.map(
+                (wh, index) =>
+                  product !== undefined && (
+                    <WareHouseOrder
+                      warehouse={wh}
+                      product={product}
+                      orderAmount={orderAmount}
+                      setOrderAmount={setOrderAmount}
+                      index={index}
+                    />
+                  )
+              )}
+            </div>
+            <button className={styles.buttonOrder} onClick={CreateOrder}>
+              Заказать
+            </button>
+          </>
+        )}
       </div>
     </div>
   );
