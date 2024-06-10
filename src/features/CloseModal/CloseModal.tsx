@@ -1,17 +1,13 @@
-import React, { useState } from "react";
-import styles from "./close-modal.module.scss";
+import styles from "./CloseModal.module.scss";
 import { useNavigate } from "react-router-dom";
 import Modal from "../../components/Modal/Modal";
-import { authStorage, signOut } from "../../auth/authStorage";
+import { authStorage, signOut } from "../auth/authStorage";
 interface Props {
   isOpen: boolean;
   closeModal: () => void;
-  //pathToRedirect : string;
-  //openRegister: () => void;
 }
 
 export function CloseModal(props: Props) {
-  const navigate = useNavigate();
   async function logOut() {
     signOut();
     window.location.href = "/";

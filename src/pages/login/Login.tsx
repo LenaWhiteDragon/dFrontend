@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./Login.module.scss";
 import { useNavigate } from "react-router-dom";
-import { authStorage, signIn } from "../../auth/authStorage";
+import { authStorage, signIn } from "../../features/auth/authStorage";
 
 function getEmailError(email: string) {
   if (email == "") return "Email не должен быть пустым.";

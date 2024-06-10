@@ -2,26 +2,18 @@
 
 .main-content {
   text-align: center;
-  width: 100%; 
+  width: 100%;
   padding: 20px;
 }
 
-
-.auth-block {
+.container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
 }
 
-.auth-block {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100vh;
-}
-
-.landing-container {
+.landingContainer {
   text-align: center;
   padding: 50px;
   align-items: center;
@@ -54,15 +46,11 @@
   }
 
   button {
-    //background-color: ;
-    //color: $text-color;
     border: none;
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
-    //width: 50%;
     box-sizing: border-box;
-    //margin-top: 20px;
   }
 
   button[type="submit"]:hover {
@@ -80,10 +68,10 @@
   box-shadow: 0px 0px 10px 0px #ccc; /* Тень */
 }
 
-.services-container {
+.servicesContainer {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+  gap: 40px;
   margin-top: 20px;
 }
 
@@ -93,24 +81,21 @@
   box-shadow: 0px 0px 10px 0px #ccc;
   padding: 20px;
   text-align: center;
- // animation: fadeInUp 1s ease-out forwards;
-  
-}
-
-.service:hover  {
-  transform: translateY(-5px);
-}
-
-.service h2 {
-  font-size: 1.8rem;
-  color: $text-color;
-  margin-bottom: 10px;
-}
-
-.service p {
-  font-size: 1.1rem;
-  color: #555;
-  line-height: 1.6;
+  cursor: pointer;
+  transition: 0.2s;
+  &:hover {
+    transform: translateY(-5px);
+  }
+  h2 {
+    font-size: 1.8rem;
+    color: $text-color;
+    margin-bottom: 10px;
+  }
+  p {
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.6;
+  }
 }
 
 .footer {
@@ -121,50 +106,34 @@
   width: 100%;
   background-color: #333;
   color: #f8f8f8;
+  box-shadow: 0px 0px 10px 0px #444; /* Тень */
 }
 
-.footer-info {
-  display: flex;
-  justify-content: space-around;
-  margin: 12px;
-}
-
-/* Additional Decoration */
-h3 {
-  color: $text-color;
-  border-bottom: 2px solid $text-color;
-  padding-bottom: 5px;
-  margin-bottom: 10px;
-}
-
-.contact-info,
-.social-media {
-  flex: 1;
-  text-align: left;
-}
-
-.social-media {
-  text-align: right;
-}
-
-/* Icon Styles */
-.footer-info i {
-  margin-right: 5px;
-}
-
-.footer-info p {
-  margin: 8px 0;
-}
-
-/* Decorative Lines */
-.decorative-line {
+.decorativeLine {
   height: 2px;
   width: 100%;
   background-color: #555; /* Серый цвет линии */
   margin: 10px 0;
 }
 
-/* Box Shadow */
-.footer {
-  box-shadow: 0px 0px 10px 0px #444; /* Тень */
+.footerInfo {
+  display: flex;
+  justify-content: space-around;
+  margin: 12px;
+  i {
+    margin-right: 5px;
+  }
+  p {
+    margin: 8px 0;
+  }
+}
+
+.contactInfo,
+.socialMedia {
+  flex: 1;
+  text-align: left;
+}
+
+.socialMedia {
+  text-align: right;
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Header } from "../../components/Header/Header";
-import "./AddWH.css";
+import styles from "./AddWH.module.css";
 import { NavBar } from "../../components/NavBar/NavBar";
 import { PageContainer } from "../../layout/PageContainer/PageContainer";
 import axios from "axios";
@@ -37,17 +37,17 @@ export const AddWH = () => {
       <Header />
       <PageContainer>
         <NavBar />
-        <div className="AddWHContainer">
-          <h1 className="Title">Создание склада</h1>
+        <div className={styles.AddWHContainer}>
+          <h1 className={styles.title}>Создание склада</h1>
           <input
-            className="fieldName"
+            className={styles.fieldName}
             type="text"
             placeholder="Введите название склада"
             value={WHname}
             onChange={(e) => setWHname(e.target.value)}
           />
           <input
-            className="fieldAddress"
+            className={styles.fieldAddress}
             type="text"
             placeholder="Введите адрес склада"
             value={WHaddress}

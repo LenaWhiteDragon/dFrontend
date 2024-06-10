@@ -1,50 +1,51 @@
+@import "../../App.scss";
+
 .search-tabs {
-    border-radius: 100px;
-    width: 100%; 
-    display: flex;
-    gap: 10px;
-    justify-content: space-around;
-    background-color: #77bfa3;
-    border: 1px solid #ccc;
-   // padding: 10px 0;
-    margin: auto;
-    margin-top: 20px;
-    margin-bottom: 20px;
+  border-radius: 100px;
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  justify-content: space-around;
+  background-color: #77bfa3;
+  border: 1px solid #ccc;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.tab {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-size: 16px;
+  color: #ffffff;
+  position: relative;
+  transition: 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
   }
-  
-  .tab {
-    padding: 10px 20px;
-    cursor: pointer;
-    border: none;
-    background: none;
-    font-size: 16px;
-    color: #ffffff;
-    position: relative;
-    transition: color 0.3s ease;
-  
-    &:hover {
-        color: #333;
-    }
-  
-    &::after {
-        content: '';
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background-color: #333;
-        transition: width 0.3s ease;
-    }
-  
-  
-  }
-  
-  .active {
-    color: #333;
+
   &::after {
-      width: 100%;
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    width: 0;
+    height: 4px;
+    background-color: $hover-color;
+    transition: width 0.3s ease;
   }
-  
+}
+
+.active {
+  font-weight: 700;
+  &:hover {
+    color: #ffffff;
+    transform: scale(1);
   }
-  
+  &::after {
+    width: 100%;
+  }
+}

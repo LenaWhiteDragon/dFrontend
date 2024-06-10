@@ -113,8 +113,8 @@ export const CreateProduct = () => {
           <h1>Создать оборудование</h1>
           <p>
             На этой странице вы создаёте <i>новое</i> оборудование. Если у вас
-            поставка уже существующего оборудования, вам нужна страница:
-            НАЗВАНИЕ
+            поставка уже существующего оборудования, вам нужна страница
+            конкретного оборудования.
           </p>
           <input
             className={styles.fieldName}
@@ -152,6 +152,7 @@ export const CreateProduct = () => {
               <div className={styles.inputContainer}>
                 <input
                   type="checkbox"
+                  className={styles.attrInput}
                   name={att.id.toString()}
                   id={att.id.toString()}
                   checked={att.value as boolean}
@@ -163,6 +164,7 @@ export const CreateProduct = () => {
               <div className={styles.inputContainer}>
                 <input
                   type="number"
+                  className={styles.attrInput}
                   name={att.id.toString()}
                   id={att.id.toString()}
                   value={removeLeadingZeros(att.value.toString())} // Вызываем removeLeadingZeros здесь

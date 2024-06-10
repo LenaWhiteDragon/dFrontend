@@ -128,33 +128,37 @@ export const AddCategory = () => {
           </p>
 
           <h3>И выберите тип:</h3>
-          <div>
-            <input
-              type="radio"
-              id="typeChoice1"
-              value="boolean"
-              checked={newAttType === "boolean"}
-              onChange={() => setNewAttType("boolean")}
-            />
-            <label htmlFor="typeChoice1">Логическое да/нет</label>
-
-            <input
-              type="radio"
-              id="typeChoice2"
-              value="integer"
-              checked={newAttType === "integer"}
-              onChange={() => setNewAttType("integer")}
-            />
-            <label htmlFor="typeChoice2">Целое число</label>
-
-            <input
-              type="radio"
-              id="typeChoice3"
-              value="real"
-              checked={newAttType === "real"}
-              onChange={() => setNewAttType("real")}
-            />
-            <label htmlFor="typeChoice3">Число с запятой</label>
+          <div className={styles.fieldTypeContainer}>
+            <div>
+              <input
+                type="radio"
+                id="typeChoice1"
+                value="boolean"
+                checked={newAttType === "boolean"}
+                onChange={() => setNewAttType("boolean")}
+              />
+              <label htmlFor="typeChoice1">Логическое да/нет</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                id="typeChoice2"
+                value="integer"
+                checked={newAttType === "integer"}
+                onChange={() => setNewAttType("integer")}
+              />
+              <label htmlFor="typeChoice2">Целое число</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                id="typeChoice3"
+                value="real"
+                checked={newAttType === "real"}
+                onChange={() => setNewAttType("real")}
+              />
+              <label htmlFor="typeChoice3">Число с запятой</label>
+            </div>
           </div>
           <button onClick={AddNewAtt}>Добавить</button>
         </div>

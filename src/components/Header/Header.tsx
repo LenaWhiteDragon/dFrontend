@@ -1,17 +1,15 @@
-import "./Header.scss";
+import styles from "./Header.module.scss";
 
 import { Outlet, useNavigate } from "react-router-dom";
 import useModal from "../../hooks/useModal";
-import { Register } from "../../pages/register/Register";
-import { CloseModal } from "../../features/close-modal/close-modal";
+import { CloseModal } from "../../features/CloseModal/CloseModal";
 import { useEffect } from "react";
-import { authStorage, signOut } from "../../auth/authStorage";
+import { authStorage, signOut } from "../../features/auth/authStorage";
 
 export const Header = () => {
   const navigate = useNavigate();
   const loginModal = useModal();
   const closeConfirmModal = useModal();
-  const registerModal = useModal();
 
   useEffect(() => {
     if (authStorage.roleId != "1" && !!authStorage.roleId) {
@@ -20,32 +18,24 @@ export const Header = () => {
     }
   }, []);
 
-  function openRegister() {
-    loginModal.closeModal();
-    registerModal.openModal(loginModal.pathToRedirect);
-    return;
-  }
-
   return (
     <nav>
-      <div className="nav-wrapper grey darken-1">
-        <a onClick={() => navigate("/")} className="brand-logo">
-          Aegle
+      <div className={styles.navWrapper}>
+        <a onClick={() => navigate("/")} className={styles.logo}>
+          Warehouse Heaven
         </a>
-        <ul id="nav-mobile" className="right hide-on-med-and-down">
-          {/* <li><a onClick={() => { navigate("/login") }}>Вход</a></li>
-      <li><a onClick={() => { navigate("/register") }}>Регистрация</a></li> */}
-
-          {/* <button disabled={true} onClick={() => openModal("/")}>Вход</button> */}
-          {/* className={`${authStorage.token == "" ? "" : "disabledLink"}`} */}
-          <li>
-            {authStorage.token == "" ? (
-              <a onClick={() => navigate("/Login")}>Вход</a>
-            ) : (
-              <a onClick={() => closeConfirmModal.openModal("/")}>Выход</a>
-            )}
-          </li>
-        </ul>
+        {authStorage.token == "" ? (
+          <a className={styles.loginButton} onClick={() => navigate("/Login")}>
+            Вход
+          </a>
+        ) : (
+          <a
+            className={styles.loginButton}
+            onClick={() => closeConfirmModal.openModal("/")}
+          >
+            Выход
+          </a>
+        )}
       </div>
       <Outlet context={{ openLoginModal: loginModal.openModal }} />
       <CloseModal

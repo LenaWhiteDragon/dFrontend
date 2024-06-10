@@ -1,33 +1,8 @@
-import React, { ReactNode, useEffect } from "react";
 import "./App.scss";
-import "./LandingPage.scss";
-import { useLocation, useNavigate } from "react-router-dom";
-import { authStorage, signOut } from "./auth/authStorage";
+import styles from "./LandingPage.module.scss";
+import { useNavigate } from "react-router-dom";
 import { Header } from "./components/Header/Header";
 import { NavBar } from "./components/NavBar/NavBar";
-//import { Button, Modal, ModalBody } from "reactstrap";
-
-/*const MyModal = ({ children, trigger }) => {
-  const [modal, setModal] = useState(false);
-  const toggle = () => setModal(!modal);
-
-  return (
-    <div>
-      {React.cloneElement(trigger, { onClick: toggle })}
-      <Modal isOpen={modal} toggle={toggle}>
-        <ModalBody>{children}</ModalBody>
-      </Modal>
-    </div>
-  );
-}; */
-
-// function logOut() {
-//   if (window.confirm("Вы уверены, что хотите выйти?") ){
-//     authStorage.token = "";
-//     authStorage.userName = "";
-//     window.location.href = "/";
-//   }
-// }
 
 export function LandingPage() {
   const navigate = useNavigate();
@@ -35,78 +10,51 @@ export function LandingPage() {
   return (
     <div>
       <Header />
-      <div className="auth-block">
-        <div className="landing-container">
-          {/* <div>  {authStorage.token}</div> */}
-          <h1>Welcome to Aegle Polyclinic</h1>
-          <p>Ваш надежный партнер в сфере здравоохранения</p>
-          <div>
-            {authStorage.token == "" ? (
-              <div></div>
-            ) : (
-              <div>
-                <p>Вы вошли в систему!</p>
-                <a className="lka" onClick={() => navigate("/my")}>
-                  &gt;&gt;&gt;В ЛИЧНЫЙ КАБИНЕТ&lt;&lt;&lt;
-                </a>
-              </div>
-            )}
-          </div>
-          {/*пока что временная вещь, здесь только будет переход на лк пациента
-          
-        <img myadmin myclinic my 
-            className="clinic-image"
-            src="http://klublady.ru/uploads/posts/2022-07/thumbs/1658582446_18-klublady-ru-p-posokh-asklepiya-tatu-eskiz-foto-18.jpg"
-            alt="Clinic Image"
-          /> */}
+      <div className={styles.container}>
+        <div className={styles.landingContainer}>
+          <h1>Добро пожаловать в Warehouse Heaven</h1>
+          <p>Управляйте товарами быстро и практично!</p>
           <NavBar />
-          <p>
-            Мы предлагаем широкий спектр медицинских услуг для обеспечения
-            вашего благополучия. Наша команда опытных врачей и персонала
-            стремится предоставить высококачественную помощь в комфортных
-            условиях.
-          </p>
-          <div className="services-container">
-            <div className="service">
-              <h2>Общая медицина</h2>
+          <div className={styles.servicesContainer}>
+            <div className={styles.service}>
+              <h2>Создавайте заказы и поставки оборудования</h2>
               <p>
-                Комплексная медицинская помощь для взрослых и детей, включая
-                профилактические услуги, регулярные обследования и лечение общих
-                заболеваний.
+                Заказы товаров посетителями и поставки новых товаров на склад
+                нужно контролировать и вести отчет. В нашей системе это можно
+                сделать быстро и удобно.
               </p>
             </div>
-            <div className="service">
-              <h2>Специализированные клиники</h2>
+            <div className={styles.service}>
+              <h2>Создание нового оборудования</h2>
               <p>
-                Специализированные клиники по различным медицинским состояниям,
-                где работают эксперты в соответствующих областях для оказания
-                целенаправленной помощи и лечения.
+                При появлении новых товаров можно внести их в систему для
+                управления поставками и заказами.
               </p>
             </div>
-            <div className="service">
-              <h2>Диагностические услуги</h2>
+            <div className={styles.service}>
+              <h2>История заказов</h2>
               <p>
-                Современные диагностические услуги, включая лабораторные
-                анализы, изображение и передовые диагностические процедуры для
-                точного и своевременного выявления заболеваний.
+                Смотрите историю уже произошедших заказов в истории для
+                аналитики, отчетности или иных целей.
               </p>
             </div>
           </div>
         </div>
-        <div className="footer">
-          <div className="decorative-line"></div>
-          <div className="footer-info">
-            <div className="contact-info">
-              <h3>Contact Us</h3>
+        <div className={styles.footer}>
+          <div className={styles.decorativeLine} />
+          <div className={styles.footerInfo}>
+            <div className={styles.contactInfo}>
+              <h3>Контакты</h3>
               <p>
-                <i className="fas fa-envelope"></i>Email: info@aegleclinic.com
+                <i className="fas fa-envelope"></i>
+                Email: info@warehouseheaven.com
               </p>
               <p>
-                <i className="fas fa-phone"></i>Phone: +1 123-456-7890
+                <i className="fas fa-phone"></i>Phone: +7 111-222-3344
               </p>
             </div>
-            <div className="social-media">
-              <h3>Follow Us</h3>
+            <div className={styles.socialMedia}>
+              <h3>Подпишитесь на нас</h3>
               <p>
                 <i className="fab fa-facebook"></i>Facebook |
                 <i className="fab fa-twitter"></i>Twitter |
@@ -114,9 +62,8 @@ export function LandingPage() {
               </p>
             </div>
           </div>
-          <div className="decorative-line"></div>
-          <p>&copy; 2023 Aegle Polyclinic. All rights reserved.</p>
-          <p>Designed with ❤️ by Aegle Team</p>
+          <div className={styles.decorativeLine} />
+          <p>&copy; 2024 Warehouse Heaven. All rights reserved.</p>
         </div>
       </div>
     </div>

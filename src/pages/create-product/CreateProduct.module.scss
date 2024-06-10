@@ -6,11 +6,25 @@
   margin: 0 auto;
 }
 
+.fieldName {
+  padding: 10px;
+}
+
+.select {
+  width: 100%;
+  padding: 10px 8px;
+}
+
 .inputContainer {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 15px;
+}
+
+.attrInput {
+  width: 300px;
+  padding: 6px 10px;
 }
 
 button:disabled {

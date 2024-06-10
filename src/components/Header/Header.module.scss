@@ -1,0 +1,32 @@
+@import "src/App.scss";
+
+/* Header style */
+.navWrapper {
+  background-color: $text-color;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+}
+
+.logo {
+  color: white;
+  text-transform: uppercase;
+  font-size: x-large;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.loginButton {
+  color: white;
+  font-size: larger;
+  cursor: pointer;
+  transition: 0.3s;
+  &:hover {
+    color: gainsboro;
+  }
+}

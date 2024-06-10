@@ -18,3 +18,9 @@
   flex-direction: column;
   gap: 20px;
 }
+
+.fieldTypeContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
