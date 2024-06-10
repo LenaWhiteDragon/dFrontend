@@ -5,6 +5,7 @@ import imagePlaceholder from "../../../assets/images/image_placeholder.png";
 type Props = {
   productName: string;
   productId: number;
+  productPhoto?: string;
 };
 
 export function ProductCard(props: Props) {
@@ -15,8 +16,8 @@ export function ProductCard(props: Props) {
   }
 
   return (
-    <div className={styles.cardDoc}>
-      <img src={imagePlaceholder} alt="Doctor" />
+    <div className={styles.cardProduct}>
+      <img src={props.productPhoto || imagePlaceholder} alt="Product" />
       <div className={styles.cardInfo}>
         <p>{props.productName}</p>
         {/* <p>{props.doctorSpecialty}</p> */}

@@ -14,6 +14,7 @@ interface GetCategoryAttsResponse {
 
 export const CreateProduct = () => {
   const [productName, setproductName] = useState("");
+  const [productImage, setproductImage] = useState("");
   const [categorySelectValue, setCategorySelectValue] = useState<string>("1");
   const [categories, setCategories] = useState<Category[]>([]);
   const [productAttrs, setProductAttrs] = useState<ProductAttribute[]>([]);
@@ -33,6 +34,7 @@ export const CreateProduct = () => {
               [att.id]: att.value,
             }))
           ),
+          photo: productImage,
         },
         {
           headers: { "Content-Type": "application/json" },
@@ -138,6 +140,13 @@ export const CreateProduct = () => {
               ))}
             </select>
           </div>
+          <input
+            className={styles.fieldName}
+            type="text"
+            placeholder="Введите ссылку на изображение"
+            value={productImage}
+            onChange={(e) => setproductImage(e.target.value)}
+          />
           {productAttrs.map((att) => {
             return att.type === "boolean" ? (
               <div className={styles.inputContainer}>
@@ -166,59 +175,6 @@ export const CreateProduct = () => {
           <button onClick={AddNewProduct} disabled={isButtonDisabled}>
             Создать
           </button>
-          {/*
-            <div className={styles.atts}>
-              {filters.map((filter) => {
-                if (filter.type === "integer" || filter.type === "real") {
-                  return (
-                    <div key={filter.id}>
-                      <h4 className={styles.attlabel}>
-                        <label htmlFor={filter.name}>{filter.name}</label>
-                      </h4>
-                      <div className={styles.rangeContainer}>
-                        <div className={styles.inputContainer}>
-                          <label>От</label>
-                          <input
-                            className={styles.attsinput}
-                            type="number"
-                            min={0}
-                            id={filter.id.toString()}
-                            value={filter.range_min}
-                            onChange={onRangeChange(filter, "min")}
-                          />
-                        </div>
-                        <div className={styles.inputContainer}>
-                          <label>до</label>
-                          <input
-                            className={styles.attsinput}
-                            type="number"
-                            min={filter.range_min}
-                            id={filter.name}
-                            value={filter.range_max}
-                            onChange={onRangeChange(filter, "max")}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  );
-                } else if (filter.type === "boolean") {
-                  return (
-                    <div key={filter.id} className={styles.inputContainer}>
-                      <h4 className={styles.attlabel}>
-                        <label htmlFor={filter.name}>{filter.name}</label>
-                      </h4>
-                      <input
-                        type="checkbox"
-                        id={filter.id.toString()}
-                        checked={filter.var_boolean}
-                        onChange={onCheckboxChange(filter)}
-                      />
-                    </div>
-                  );
-                }
-              })}
-            </div>
-          </div> */}
         </div>
       </PageContainer>
     </div>

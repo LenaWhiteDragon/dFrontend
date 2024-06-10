@@ -284,6 +284,7 @@ export function ProductPage() {
                   key={product.id}
                   productName={product.name}
                   productId={product.id}
+                  productPhoto={product.photo}
                 />
               );
             })

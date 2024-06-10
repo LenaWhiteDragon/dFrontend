@@ -119,7 +119,10 @@ export const OrderProduct = () => {
       <Header />
       <div className={styles.orderProductContainer}>
         <div className={styles.productInfoContainer}>
-          <img className={styles.productImage} src={imagePlaceholder} />
+          <img
+            className={styles.productImage}
+            src={product?.photo || imagePlaceholder}
+          />
           <h2 className={styles.productTitle}>{product?.name}</h2>
           <ul className={styles.productCharsContainer}>
             {product?.atts.map((attr) => (
