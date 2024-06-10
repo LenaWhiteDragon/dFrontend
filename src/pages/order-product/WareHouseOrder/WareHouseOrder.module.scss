@@ -1,0 +1,33 @@
+@import "src/App.scss";
+
+.buttonsContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.whProductNumber {
+  padding: 10px 25px;
+  background-color: white;
+  margin: 10px auto;
+  display: flex;
+  flex-direction: column;
+  @media (min-width: 1200px) {
+    flex-direction: row;
+  }
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  h2 {
+    margin: 0;
+  }
+  border-radius: 5px;
+}
+.productOrderAmountInput {
+  text-align: center;
+  font-size: medium;
+}
+.productOrderButton {
+  background-color: $text-color;
+  color: white;
+  font-size: 20px;
+}

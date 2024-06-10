@@ -1,88 +1,17 @@
 import { Header } from "../../components/Header/Header";
 import imagePlaceholder from "../../assets/images/image_placeholder.png";
-import "./OrderProduct.scss";
-import { ChangeEvent, useEffect, useState } from "react";
+import styles from "./OrderProduct.module.scss";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Product } from "../../types/Product";
-
-interface WareHouse {
-  name: string;
-}
-interface WareHouseInfoProps {
-  warehouse: WareHouse;
-  product: Product;
-  orderAmount: number[];
-  setOrderAmount: React.Dispatch<React.SetStateAction<number[]>>;
-  index: number;
-}
-
-const WareHouseInfo = ({
-  warehouse,
-  product,
-  orderAmount,
-  setOrderAmount,
-  index,
-}: WareHouseInfoProps) => {
-  const amount = product.number[index];
-
-  function decrementArrayValue(array: number[], index: number) {
-    const newArray = [...array];
-    newArray[index] = newArray[index] - 1;
-    setOrderAmount(newArray);
-  }
-
-  function setArrayValue(array: number[], index: number, value: number) {
-    const newArray = [...array];
-    newArray[index] = value;
-    setOrderAmount(newArray);
-  }
-
-  function incrementArrayValue(array: number[], index: number) {
-    const newArray = [...array];
-    newArray[index] = newArray[index] + 1;
-    setOrderAmount(newArray);
-  }
-
-  return (
-    <div className="whProductNumber">
-      <h2>
-        {warehouse.name} склад: {amount} штук
-      </h2>
-      <div className="buttonsContainer">
-        <button
-          className="productOrderButton"
-          disabled={orderAmount[index] === 0}
-          onClick={() => decrementArrayValue(orderAmount, index)}
-        >
-          -
-        </button>
-        <input
-          type="number"
-          className="productOrderAmountInput"
-          id="productOrderAmount"
-          name="productOrderAmount"
-          value={orderAmount[index]}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setArrayValue(orderAmount, index, Number(e.target.value))
-          }
-          min={0}
-          max={amount}
-        />
-        <button
-          className="productOrderButton"
-          disabled={orderAmount[index] >= product.number[index]}
-          onClick={() => incrementArrayValue(orderAmount, index)}
-        >
-          +
-        </button>
-      </div>
-    </div>
-  );
-};
+import { WareHouse } from "../../types/WareHouse";
+import { WareHouseOrder } from "./WareHouseOrder/WareHouseOrder";
+import { WareHouseAddProduct } from "./WareHouseAddProduct/WareHouseAddProduct";
 
 export const OrderProduct = () => {
   const [product, setProduct] = useState<Product>();
   const [orderAmount, setOrderAmount] = useState<number[]>([]);
+  const [addProductAmount, setAddProductAmount] = useState<number[]>([]);
   const [warehouseList, setWarehouseList] = useState<WareHouse[]>([]);
   const { id } = useParams();
   const productAmount = product?.number.reduce(
@@ -91,8 +20,34 @@ export const OrderProduct = () => {
   );
 
   useEffect(() => {
-    setOrderAmount(product?.number.map((el) => (el !== 0 ? 1 : 0)) || []);
+    if (product) {
+      setOrderAmount(product.number.map((el) => (el !== 0 ? 1 : 0)) || []);
+      let productAmountToSet: number[] = [];
+      product.number.forEach(() => {
+        productAmountToSet.push(0);
+      });
+      setAddProductAmount(productAmountToSet);
+    }
   }, [product]);
+
+  async function CreateSupply() {
+    const response = await fetch(
+      `http://localhost:5000/product/AAAAAAAAAAAAAAAAAAAAAAA`,
+      {
+        // ЗДЕСЬ ПОДПРАВИТЬ РОУТ МОЖЕТ БЫТЬ
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id_product: product?.id,
+          // number: addProductAmount, // ЗДЕСЬ УБЕДИТЬСЯ ЧТО НА БЕКЕ ПРОИСХОДИТ
+          id_user: 5,
+        }),
+      }
+    );
+    alert("Поставка произведена");
+  }
 
   async function CreateOrder() {
     const response = await fetch(`http://localhost:5000/product/orderProduct`, {
@@ -162,11 +117,11 @@ export const OrderProduct = () => {
   return (
     <div>
       <Header />
-      <div className="orderProductContainer">
-        <div className="productInfoContainer">
-          <img className="productImage" src={imagePlaceholder} />
-          <h2 className="productTitle">{product?.name}</h2>
-          <ul className="productCharsContainer">
+      <div className={styles.orderProductContainer}>
+        <div className={styles.productInfoContainer}>
+          <img className={styles.productImage} src={imagePlaceholder} />
+          <h2 className={styles.productTitle}>{product?.name}</h2>
+          <ul className={styles.productCharsContainer}>
             {product?.atts.map((attr) => (
               <li>
                 {attr.name}:{" "}
@@ -181,14 +136,37 @@ export const OrderProduct = () => {
             ))}
           </ul>
         </div>
-        <div className="productWHAmountContainer">
+        <div className={styles.productWHAmountContainer}>
           <h3>Всего в наличии: {productAmount}</h3>
         </div>
-        <div className="whProductNumberContainer">
+        <div className={styles.whProductNumberContainer}>
+          <h2>Добавить продукты на склады</h2>
           {warehouseList.map(
             (wh, index) =>
               product !== undefined && (
-                <WareHouseInfo
+                <WareHouseAddProduct
+                  warehouse={wh}
+                  product={product}
+                  addProductAmount={addProductAmount}
+                  setAddProductAmount={setAddProductAmount}
+                  index={index}
+                />
+              )
+          )}
+        </div>
+        <button
+          className={styles.buttonOrder}
+          onClick={CreateSupply}
+          style={{ marginBottom: 50 }}
+        >
+          Добавить поставку
+        </button>
+        <div className={styles.whProductNumberContainer}>
+          <h2>Заказать продукты со складов</h2>
+          {warehouseList.map(
+            (wh, index) =>
+              product !== undefined && (
+                <WareHouseOrder
                   warehouse={wh}
                   product={product}
                   orderAmount={orderAmount}
@@ -198,7 +176,7 @@ export const OrderProduct = () => {
               )
           )}
         </div>
-        <button className="buttonOrder" onClick={CreateOrder}>
+        <button className={styles.buttonOrder} onClick={CreateOrder}>
           Заказать
         </button>
       </div>

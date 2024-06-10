@@ -1,0 +1,15 @@
+.warehouseContainer {
+  background-color: white;
+  padding: 5px 15px;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.productAddProductAmountInput {
+  text-align: center;
+  font-size: medium;
+  padding: 10px 0;
+}
