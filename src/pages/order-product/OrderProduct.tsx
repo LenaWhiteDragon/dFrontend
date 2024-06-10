@@ -9,6 +9,7 @@ import { WareHouseOrder } from "./WareHouseOrder/WareHouseOrder";
 import { WareHouseAddProduct } from "./WareHouseAddProduct/WareHouseAddProduct";
 import { authStorage } from "../../features/auth/authStorage";
 import { UserRole } from "../../types/UserRole";
+import axios from "axios";
 
 const SUPPLY_ROLES_AVAILABLE: UserRole[] = [
   UserRole.Whman,
@@ -35,77 +36,94 @@ export const OrderProduct = () => {
   useEffect(() => {
     if (product) {
       setOrderAmount(product.number.map((el) => (el !== 0 ? 1 : 0)) || []);
-      let productAmountToSet: number[] = [];
-      product.number.forEach(() => {
-        productAmountToSet.push(0);
-      });
-      setAddProductAmount(productAmountToSet);
+      setAddProductAmount(product.number);
     }
   }, [product]);
 
   async function CreateSupply() {
-    const response = await fetch(
-      `http://localhost:5000/product/AAAAAAAAAAAAAAAAAAAAAAA`,
-      {
-        // ЗДЕСЬ ПОДПРАВИТЬ РОУТ МОЖЕТ БЫТЬ
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id_product: product?.id,
-          // number: addProductAmount, // ЗДЕСЬ УБЕДИТЬСЯ ЧТО НА БЕКЕ ПРОИСХОДИТ
-          id_user: authStorage.userId,
-        }),
-      }
-    );
-    alert("Поставка произведена");
-  }
-
-  async function CreateOrder() {
-    const response = await fetch(`http://localhost:5000/product/orderProduct`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id_product: product?.id,
-        number: orderAmount,
-        id_user: authStorage.userId,
-      }),
-    });
-    alert("Заказ выполнен");
-  }
-
-  useEffect(() => {
-    async function getProduct(): Promise<Product> {
-      const response = await fetch(
-        `http://localhost:5000/product/getProductById/${id}`,
+    try {
+      const response = await axios.put(
+        "http://localhost:5000/product/setProduct",
         {
-          method: "GET",
+          id_product: product?.id,
+          number: addProductAmount,
+        },
+        {
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
-      const data = await response.json();
-      setProduct(data);
-      return data;
+      alert("Поставка произведена");
+      setProduct((prevProduct) => {
+        if (prevProduct) {
+          return { ...prevProduct, number: response.data.number };
+        }
+        return prevProduct;
+      });
+    } catch (error) {
+      console.error("Ошибка при выполнении запроса:", error);
+    }
+  }
+
+  async function CreateOrder() {
+    try {
+      const response = await axios.put(
+        "http://localhost:5000/product/orderProduct",
+        {
+          id_product: product?.id,
+          number: orderAmount,
+          id_user: authStorage.userId,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      alert("Заказ выполнен");
+    } catch (error) {
+      console.error("Ошибка при выполнении запроса:", error);
+    }
+  }
+
+  useEffect(() => {
+    async function getProduct(): Promise<Product> {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/product/getProductById/${id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const data = response.data;
+        setProduct(data);
+        return data;
+      } catch (error) {
+        console.error("Ошибка при выполнении запроса:", error);
+        throw error;
+      }
     }
     getProduct();
   }, []);
 
   useEffect(() => {
     async function getWarehouse(): Promise<WareHouse[]> {
-      const response = await fetch(`http://localhost:5000/wh/`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
-      setWarehouseList(data);
-      return data;
+      try {
+        const response = await axios.get("http://localhost:5000/wh/", {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = response.data;
+        setWarehouseList(data);
+        return data;
+      } catch (error) {
+        console.error("Ошибка при выполнении запроса:", error);
+        throw error;
+      }
     }
     getWarehouse();
   }, []);

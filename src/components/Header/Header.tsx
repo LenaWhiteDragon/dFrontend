@@ -11,13 +11,6 @@ export const Header = () => {
   const loginModal = useModal();
   const closeConfirmModal = useModal();
 
-  useEffect(() => {
-    if (authStorage.roleId != "1" && !!authStorage.roleId) {
-      signOut();
-      window.location.href = "/";
-    }
-  }, []);
-
   return (
     <nav>
       <div className={styles.navWrapper}>
