@@ -12,7 +12,7 @@ export function LandingPage() {
       <Header />
       <div className={styles.container}>
         <div className={styles.landingContainer}>
-          <h1>Добро пожаловать в Warehouse Heaven</h1>
+          <h1>Добро пожаловать в Warehouse</h1>
           <p>Управляйте товарами быстро и практично!</p>
           <NavBar />
           <div className={styles.servicesContainer}>
@@ -47,7 +47,7 @@ export function LandingPage() {
               <h3>Контакты</h3>
               <p>
                 <i className="fas fa-envelope"></i>
-                Email: info@warehouseheaven.com
+                Email: info@warehouse.com
               </p>
               <p>
                 <i className="fas fa-phone"></i>Phone: +7 111-222-3344
@@ -56,14 +56,14 @@ export function LandingPage() {
             <div className={styles.socialMedia}>
               <h3>Подпишитесь на нас</h3>
               <p>
-                <i className="fab fa-facebook"></i>Facebook |
-                <i className="fab fa-twitter"></i>Twitter |
-                <i className="fab fa-instagram"></i>Instagram
+                <i className="fab fa-facebook"></i>vk.com |
+                <i className="fab fa-twitter"></i>ok.ru |
+                <i className="fab fa-instagram"></i>cbr.ru
               </p>
             </div>
           </div>
           <div className={styles.decorativeLine} />
-          <p>&copy; 2024 Warehouse Heaven. All rights reserved.</p>
+          <p>&copy; 2024 Warehouse. All rights reserved.</p>
         </div>
       </div>
     </div>

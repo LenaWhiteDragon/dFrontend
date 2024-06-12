@@ -15,7 +15,7 @@ export const Header = () => {
     <nav>
       <div className={styles.navWrapper}>
         <a onClick={() => navigate("/")} className={styles.logo}>
-          Warehouse Heaven
+          Warehouse
         </a>
         {authStorage.token == "" ? (
           <a className={styles.loginButton} onClick={() => navigate("/Login")}>
