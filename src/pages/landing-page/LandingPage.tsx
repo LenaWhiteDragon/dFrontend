@@ -1,8 +1,8 @@
-import "./App.scss";
+import "../../App.scss";
 import styles from "./LandingPage.module.scss";
 import { useNavigate } from "react-router-dom";
-import { Header } from "./components/Header/Header";
-import { NavBar } from "./components/NavBar/NavBar";
+import { Header } from "../../components/Header/Header";
+import { NavBar } from "../../components/NavBar/NavBar";
 
 export function LandingPage() {
   const navigate = useNavigate();

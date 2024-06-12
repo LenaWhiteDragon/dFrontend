@@ -4,7 +4,7 @@ import { Header } from "../../components/Header/Header";
 import styles from "./OrdersHistory.module.scss";
 import { CheckIcon } from "../../assets/icons/CheckIcon";
 import { CloseIcon } from "../../assets/icons/CloseIcon";
-import { formatDate } from "../../utils/parseDate";
+import { parseDate } from "../../utils/parseDate";
 import { NavBar } from "../../components/NavBar/NavBar";
 import { PageContainer } from "../../layout/PageContainer/PageContainer";
 import { authStorage } from "../../features/auth/authStorage";
@@ -105,7 +105,7 @@ export const OrdersHistory = () => {
                 <td className={styles.centeredText}>{order.user_id}</td>
                 <td className={styles.centeredText}>{order.id_product}</td>
                 <td>{order.name}</td>
-                <td>{formatDate(order.date)}</td>
+                <td>{parseDate(order.date)}</td>
                 {Array.from({ length: maxColumns }, (_, index) => (
                   <td key={index} className={styles.centeredText}>
                     {order.order_number[index]}

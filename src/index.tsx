@@ -7,16 +7,16 @@ import {
   Routes,
   createBrowserRouter,
 } from "react-router-dom";
-import { LandingPage } from "./LandingPage";
+import { LandingPage } from "./pages/landing-page/LandingPage";
 import { ProductPage } from "./pages/product-page/ProductPage";
-import { OrderProduct } from "./pages/order-product/OrderProduct";
-import { AddWH } from "./pages/add-wh/AddWH";
-import { AddCategory } from "./pages/add-category/AddCategory";
-import { Login } from "./pages/login/Login";
-import { Register } from "./pages/register/Register";
-import { OrdersHistory } from "./pages/orders-history/OrdersHistory";
+import { OrderProduct } from "./pages/order-product-page/OrderProduct";
+import { AddWH } from "./pages/add-wh-page/AddWH";
+import { AddCategory } from "./pages/add-category-page/AddCategory";
+import { Login } from "./pages/login-page/Login";
+import { Register } from "./pages/register-page/Register";
+import { OrdersHistory } from "./pages/orders-history-page/OrdersHistory";
 import { PrivateRoute } from "./features/auth/PrivateRoute";
-import { CreateProduct } from "./pages/create-product/CreateProduct";
+import { CreateProduct } from "./pages/create-product-page/CreateProduct";
 import { UserRole } from "./types/UserRole";
 
 const router = createBrowserRouter([{ path: "*", Component: Root }]);
