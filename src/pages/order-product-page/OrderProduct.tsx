@@ -54,7 +54,7 @@ export const OrderProduct = () => {
           },
         }
       );
-      alert("Поставка произведена");
+      alert("Количество оборудования изменено");
       setProduct((prevProduct) => {
         if (prevProduct) {
           return { ...prevProduct, number: response.data.number };
@@ -195,7 +195,7 @@ export const OrderProduct = () => {
               onClick={CreateSupply}
               style={{ marginBottom: 50 }}
             >
-              Добавить поставку
+              Изменить количество
             </button>
           </>
         )}
@@ -217,7 +217,7 @@ export const OrderProduct = () => {
               )}
             </div>
             <button className={styles.buttonOrder} onClick={CreateOrder}>
-              Заказать
+              Создать заявку
             </button>
           </>
         )}

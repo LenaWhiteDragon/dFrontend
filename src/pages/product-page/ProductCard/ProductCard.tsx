@@ -29,7 +29,7 @@ export function ProductCard(props: Props) {
       </Link>
       <div className={styles.cardInfo}>
         <p>{props.productName}</p>
-        <button onClick={goToProduct}>Перейти к товару</button>
+        <button onClick={goToProduct}>Перейти к оборудованию</button>
       </div>
     </div>
   );
