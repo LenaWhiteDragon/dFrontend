@@ -14,6 +14,8 @@ export const OrdersHistory = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [maxColumns, setMaxColumns] = useState(0);
 
+  const isOperator = Number(authStorage.roleId) === UserRole.Operator;
+
   useEffect(() => {
     async function getOrders() {
       const response = await fetch(`http://localhost:5000/order`, {
@@ -26,9 +28,7 @@ export const OrdersHistory = () => {
       const data = await response.json();
       const readyData = data
         .filter((order: Order) =>
-          Number(authStorage.roleId) === UserRole.Operator
-            ? order.user_id === Number(authStorage.userId)
-            : order
+          isOperator ? order.user_id === Number(authStorage.userId) : order
         )
         .sort((a: Order, b: Order) => a.id_order - b.id_order);
       setOrders(readyData);
@@ -48,25 +48,28 @@ export const OrdersHistory = () => {
     orderId: number,
     isCompleted: boolean
   ): Promise<Order[]> {
-    const response = await fetch(`http://localhost:5000/order/status`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id_order: orderId,
-        is_completed: isCompleted,
-      }),
-    });
-    const data = await response.json();
-    setOrders((prevOrders) =>
-      prevOrders.map((order) =>
-        order.id_order === orderId
-          ? { ...order, is_completed: isCompleted }
-          : order
-      )
-    );
-    return data;
+    if (!isOperator) {
+      const response = await fetch(`http://localhost:5000/order/status`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id_order: orderId,
+          is_completed: isCompleted,
+        }),
+      });
+      const data = await response.json();
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order.id_order === orderId
+            ? { ...order, is_completed: isCompleted }
+            : order
+        )
+      );
+      return data;
+    }
+    return [];
   }
 
   return (
@@ -90,10 +93,12 @@ export const OrdersHistory = () => {
           </thead>
           <tbody>
             {orders.map((order) => (
-              <tr>
+              <tr key={order.id_order}>
                 <td className={styles.statusContainer}>
                   <div
-                    className={styles.status}
+                    className={`${styles.status} ${
+                      !isOperator ? styles.pointer : ""
+                    }`}
                     onClick={() =>
                       putOrderStatus(order.id_order, !order.is_completed)
                     }

@@ -93,7 +93,7 @@ export const AddCategory = () => {
           <h3>Выберите характеристики, которые должны быть у категории</h3>
           <div className={styles.OldAtts}>
             {attrs.map((attr) => (
-              <div>
+              <div key={attr.id}>
                 <input
                   type="checkbox"
                   id={attr.id.toString()}

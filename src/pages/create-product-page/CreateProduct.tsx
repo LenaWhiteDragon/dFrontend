@@ -149,7 +149,7 @@ export const CreateProduct = () => {
           />
           {productAttrs.map((att) => {
             return att.type === "boolean" ? (
-              <div className={styles.inputContainer}>
+              <div className={styles.inputContainer} key={att.id}>
                 <input
                   type="checkbox"
                   className={styles.attrInput}
@@ -161,7 +161,7 @@ export const CreateProduct = () => {
                 <label htmlFor={att.id.toString()}>{att.name}</label>
               </div>
             ) : (
-              <div className={styles.inputContainer}>
+              <div className={styles.inputContainer} key={att.id}>
                 <input
                   type="number"
                   className={styles.attrInput}

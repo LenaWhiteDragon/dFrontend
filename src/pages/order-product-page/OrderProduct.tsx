@@ -157,7 +157,7 @@ export const OrderProduct = () => {
           <h2 className={styles.productTitle}>{product?.name}</h2>
           <ul className={styles.productCharsContainer}>
             {product?.atts.map((attr) => (
-              <li>
+              <li key={attr.id}>
                 {attr.name}:{" "}
                 {attr.var_integer ??
                   attr.var_real ??
@@ -181,6 +181,7 @@ export const OrderProduct = () => {
                 (wh, index) =>
                   product !== undefined && (
                     <WareHouseAddProduct
+                      key={wh.id_wh}
                       warehouse={wh}
                       product={product}
                       addProductAmount={addProductAmount}
@@ -207,6 +208,7 @@ export const OrderProduct = () => {
                 (wh, index) =>
                   product !== undefined && (
                     <WareHouseOrder
+                      key={wh.id_wh}
                       warehouse={wh}
                       product={product}
                       orderAmount={orderAmount}

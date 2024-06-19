@@ -28,11 +28,13 @@
   align-items: center;
 }
 .status {
-  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: $text-color;
   width: 30px;
   height: 30px;
+}
+.pointer {
+  cursor: pointer;
 }
